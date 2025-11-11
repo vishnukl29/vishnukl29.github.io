@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishnu Prasad - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:wght@100..900&family=Momo+Signature&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #000000;
+            position: relative;
+            overflow-x: hidden;
+            color: white;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://raw.githubusercontent.com/v3shn/web2/ad7f6b9dc70bf47dea9b60d291251215446d283d/1762082384710.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(8px);
+            opacity: 0.25;
+            z-index: -1;
+        }
+
+        .time-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 16px;
+            font-family: 'Fredoka', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: flex;
+            animation: fadeInPage 0.5s ease-in-out forwards;
+        }
+
+        .page.fade-out {
+            animation: fadeOutPage 0.5s ease-in-out forwards;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            width: 100%;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .profile-picture {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            object-fit: cover;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .click-hint {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .name {
+            font-size: 42px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            font-family: 'Bitcount Grid Single', monospace;
+        }
+
+        .motto {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            margin-bottom: 50px;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Momo Signature', cursive;
+        }
+
+        .about-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-section h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .contact-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-page {
+            text-align: center;
+        }
+
+        .contact-page h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 60px;
+            letter-spacing: 2px;
+        }
+
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .contact-icon {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 150px;
+        }
+
+        .contact-icon:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .contact-icon img {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon span {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOutPage {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Indian Time Display -->
+    <div class="time-display" id="timeDisplay"></div>
+
+    <!-- Home Page -->
+    <div class="page active" id="homePage">
+        <div class="container">
+            <div class="profile-section">
+                <img src="https://raw.githubusercontent.com/v3shn/web2/ad7f6b9dc70bf47dea9b60d291251215446d283d/1762082384710.jpg" 
+                     alt="Vishnu Prasad" 
+                     class="profile-picture" 
+                     id="profilePic">
+                <div class="click-hint">{click on image}</div>
+                <h1 class="name">VISHNU PRASAD</h1>
+                <div class="motto">
+                    you only live once but if you do it right once is enough<br>
+                    (still debugging tho)
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>About Me</h2>
+                <p>Traveller, Open-source maintainer, Tech Explorer</p>
+            </div>
+
+            <div class="button-container">
+                <button class="contact-button" id="contactBtn">Contact Me</button>
+            </div>
+        </div>
+        <footer>
+            DESIGNED BY | VISHNU PRASAD @2025
+        </footer>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="contactPage">
+        <div class="container contact-page">
+            <h1>Contact Me</h1>
+            
+            <div class="contact-icons">
+                <a href="https://wa.me/+916235989299" target="_blank" class="contact-icon">
+                    <img src="https://raw.githubusercontent.com/v3shn/web2/1d82f9d7aaee85ce130d1d505a74777cc75bc5b2/whatsapp%20(1).png" alt="WhatsApp">
+                    <span>WhatsApp</span>
+                </a>
+
+                <a href="https://www.instagram.com/v3shn/" target="_blank" class="contact-icon">
+                    <img src="https://raw.githubusercontent.com/v3shn/web2/1d82f9d7aaee85ce130d1d505a74777cc75bc5b2/social.png" alt="Instagram">
+                    <span>Instagram</span>
+                </a>
+
+                <a href="mailto:v3shn@yahoo.com" class="contact-icon">
+                    <img src="https://raw.githubusercontent.com/v3shn/web2/1d82f9d7aaee85ce130d1d505a74777cc75bc5b2/yahoo.png" alt="Email">
+                    <span>Yahoo!</span>
+                </a>
+            </div>
+
+            <button class="back-button" id="backBtn">← Back to Home</button>
+        </div>
+        <footer>
+            DESIGNED BY | VISHNU PRASAD @2025
+        </footer>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://raw.githubusercontent.com/v3shn/web2/733e432a3addd24dd5acd86522090a566e382b86/web.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const profilePic = document.getElementById('profilePic');
+        const bgMusic = document.getElementById('bgMusic');
+        const contactBtn = document.getElementById('contactBtn');
+        const backBtn = document.getElementById('backBtn');
+        const homePage = document.getElementById('homePage');
+        const contactPage = document.getElementById('contactPage');
+        const timeDisplay = document.getElementById('timeDisplay');
+        let isPlaying = false;
+
+        // Update Indian Time
+        function updateTime() {
+            const now = new Date();
+            const options = {
+                timeZone: 'Asia/Kolkata',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const timeString = now.toLocaleString('en-IN', options);
+            timeDisplay.textContent = timeString;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        profilePic.addEventListener('click', function() {
+            if (!isPlaying) {
+                bgMusic.play();
+                isPlaying = true;
+            } else {
+                bgMusic.pause();
+                isPlaying = false;
+            }
+        });
+
+        contactBtn.addEventListener('click', function() {
+            homePage.classList.add('fade-out');
+            setTimeout(() => {
+                homePage.classList.remove('active', 'fade-out');
+                contactPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }, 500);
+        });
+
+        backBtn.addEventListener('click', function() {
+            contactPage.classList.add('fade-out');
+            setTimeout(() => {
+                contactPage.classList.remove('active', 'fade-out');
+                homePage.classList.add('active');
+                window.scrollTo(0, 0);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
