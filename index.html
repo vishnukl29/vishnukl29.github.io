@@ -8,6 +8,7 @@
     :root{
       --bg:#000;
       --neon:#00ff9d;
+      --neon-glow:rgba(0,255,157,0.5);
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
     }
     *{box-sizing:border-box;margin:0;padding:0}
@@ -16,19 +17,62 @@
     #boot-screen{position:fixed;inset:0;background:#000;display:flex;justify-content:center;align-items:center;z-index:9999;padding:20px;transition:0.6s opacity;}
     #boot-text{font-size:clamp(11px, 2.5vw, 14px);white-space:pre-wrap;line-height:1.6;}
 
-    .matrix{position:fixed;inset:0;pointer-events:none;opacity:0.06;background-image:repeating-linear-gradient(0deg,rgba(0,255,157,0.1)1px,transparent 3px);} 
+    /* Animated particles */
+    .particles{position:fixed;inset:0;pointer-events:none;z-index:1;}
+    .particle{position:absolute;width:2px;height:2px;background:var(--neon);border-radius:50%;opacity:0;animation:float 8s infinite;}
+    @keyframes float{
+      0%{transform:translateY(100vh) translateX(0);opacity:0;}
+      10%{opacity:0.3;}
+      90%{opacity:0.3;}
+      100%{transform:translateY(-100px) translateX(50px);opacity:0;}
+    }
+
+    /* Scanline effect */
+    .scanline{position:fixed;inset:0;pointer-events:none;z-index:2;background:linear-gradient(transparent 50%, rgba(0,255,157,0.02) 50%);background-size:100% 4px;animation:scan 8s linear infinite;}
+    @keyframes scan{0%{background-position:0 0;}100%{background-position:0 100%;}}
+
+    .matrix{position:fixed;inset:0;pointer-events:none;opacity:0.06;background-image:repeating-linear-gradient(0deg,rgba(0,255,157,0.1)1px,transparent 3px);z-index:0;} 
 
     .wrap{position:relative;z-index:5;max-width:980px;margin:20px auto;padding:20px}
-    header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-    .avatar{width:clamp(80px, 20vw, 120px);height:clamp(80px, 20vw, 120px);border-radius:14px;overflow:hidden;border:2px solid rgba(0,255,157,0.2);flex-shrink:0;}
-    .avatar img{width:100%;height:100%;object-fit:cover}
+    
+    /* Staggered animations */
+    .fade-in{opacity:0;animation:fadeIn 0.8s forwards;}
+    @keyframes fadeIn{to{opacity:1;}}
+    .fade-in:nth-child(1){animation-delay:0.2s;}
+    .fade-in:nth-child(2){animation-delay:0.4s;}
+    .fade-in:nth-child(3){animation-delay:0.6s;}
+    .fade-in:nth-child(4){animation-delay:0.8s;}
+    .fade-in:nth-child(5){animation-delay:1s;}
+    .fade-in:nth-child(6){animation-delay:1.2s;}
 
-    h1{font-size:clamp(20px, 5vw, 28px);letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,157,0.3)}
+    header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .avatar{width:clamp(80px, 20vw, 120px);height:clamp(80px, 20vw, 120px);border-radius:14px;overflow:hidden;border:2px solid rgba(0,255,157,0.2);flex-shrink:0;cursor:pointer;transition:0.3s;position:relative;}
+    .avatar::after{content:'';position:absolute;inset:-2px;border-radius:14px;background:linear-gradient(45deg, var(--neon), transparent);opacity:0;transition:0.3s;}
+    .avatar:hover{transform:scale(1.05);box-shadow:0 0 20px var(--neon-glow);}
+    .avatar:hover::after{opacity:0.3;}
+    .avatar img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1;}
+
+    h1{font-size:clamp(20px, 5vw, 28px);letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,157,0.3);position:relative;}
+    h1.glitch{animation:glitch 3s infinite;}
+    @keyframes glitch{
+      0%,90%,100%{transform:translate(0);}
+      92%{transform:translate(-2px,2px);}
+      94%{transform:translate(2px,-2px);}
+      96%{transform:translate(-2px,-2px);}
+      98%{transform:translate(2px,2px);}
+    }
+    
     h2{font-size:clamp(16px, 4vw, 20px);margin-bottom:8px;}
     h3{font-size:clamp(13px, 3vw, 14px);}
     .handle{font-size:clamp(11px, 2.5vw, 12px);opacity:0.7;margin-top:4px}
 
-    .card{background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,157,0.2);padding:clamp(16px, 4vw, 20px);border-radius:12px;margin-top:20px;}
+    /* Status indicator */
+    .status{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:6px 12px;background:rgba(0,255,157,0.1);border:1px solid rgba(0,255,157,0.3);border-radius:20px;font-size:11px;}
+    .status-dot{width:8px;height:8px;background:var(--neon);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+    .card{background:rgba(0,0,0,0.4);border:1px solid rgba(0,255,157,0.2);padding:clamp(16px, 4vw, 20px);border-radius:12px;margin-top:20px;backdrop-filter:blur(10px);transition:0.3s;}
+    .card:hover{border-color:rgba(0,255,157,0.5);box-shadow:0 4px 20px rgba(0,255,157,0.1);}
 
     .terminal{overflow:hidden}
     .term-bar{display:flex;gap:8px;padding:10px;background:#001200;border-bottom:1px solid rgba(0,255,157,0.25)}
@@ -38,6 +82,15 @@
     .dot.green{background:#28c840;border:1px solid #1e8a31}
 
     .term-body{padding:clamp(12px, 3vw, 18px);min-height:80px;font-size:clamp(12px, 2.8vw, 14px);line-height:1.6;white-space:pre-wrap;overflow-x:auto;}
+
+    /* Enhanced skill bars with scroll animation */
+    .skills-grid{display:grid;gap:12px;margin-top:16px;}
+    .skill-item{display:flex;align-items:center;gap:12px;opacity:0;transform:translateX(-20px);transition:all 0.6s ease;}
+    .skill-item.animate{opacity:1;transform:translateX(0);}
+    .skill-name{min-width:80px;font-size:13px;opacity:0.85;}
+    .skill-bar{flex:1;height:8px;background:rgba(0,255,157,0.1);border-radius:4px;overflow:hidden;position:relative;}
+    .skill-fill{height:100%;background:linear-gradient(90deg, var(--neon), rgba(0,255,157,0.5));border-radius:4px;width:0%;transition:width 1s ease 0.3s;box-shadow:0 0 10px var(--neon-glow);}
+    .skill-item.animate .skill-fill{width:var(--skill-width) !important;}
 
     .links a{display:block;padding:clamp(10px, 2.5vw, 12px);border-radius:8px;margin-top:10px;border:1px solid rgba(0,255,157,0.3);text-decoration:none;color:var(--neon);position:relative;overflow:hidden;transition:0.2s;font-size:clamp(13px, 3vw, 15px);}
 
@@ -57,6 +110,12 @@
     .age-label{font-size:clamp(10px, 2vw, 11px);opacity:0.6;text-transform:uppercase;letter-spacing:1px}
 
     p{font-size:clamp(12px, 3vw, 14px);line-height:1.8;}
+    
+    /* Typing effect for paragraphs */
+    .typing-text{display:inline-block;overflow:hidden;border-right:2px solid var(--neon);white-space:nowrap;animation:typing 3s steps(80) forwards, blink 0.7s step-end infinite;}
+    @keyframes typing{from{width:0}to{width:100%;border-right:none;}}
+    @keyframes blink{50%{border-color:transparent;}}
+    .typing-container{overflow:hidden;}
 
     @media (max-width: 480px) {
       .wrap{padding:12px;margin:10px auto;}
@@ -64,24 +123,31 @@
       .card{margin-top:16px;padding:14px;}
       .age-grid{grid-template-columns:repeat(2, 1fr);gap:8px;}
       .term-body{font-size:12px;}
+      .skill-name{min-width:60px;font-size:12px;}
     }
   </style>
 </head>
 <body>
 
 <div id="boot-screen"><pre id="boot-text"></pre></div>
+<div class="particles" id="particles"></div>
+<div class="scanline"></div>
 <div class="matrix"></div>
 
 <div class="wrap">
-  <header>
+  <header class="fade-in">
     <div class="avatar"><img src="https://raw.githubusercontent.com/v3shn/web2/ad7f6b9dc70bf47dea9b60d291251215446d283d/1762082384710.jpg" alt="Vishnu Prasad"></div>
     <div>
-      <h1>VISHNU PRASAD</h1>
-      <div class="handle">v3shn.me • Open-source • Explorer</div>
+      <h1 class="glitch">VISHNU PRASAD</h1>
+      <div class="handle">Open-source • Explorer</div>
+      <div class="status">
+        <span class="status-dot"></span>
+        <span>Available for collaboration</span>
+      </div>
     </div>
   </header>
 
-  <section class="card terminal">
+  <section class="card terminal fade-in">
     <div class="term-bar">
       <div class="dot red"></div>
       <div class="dot yellow"></div>
@@ -90,28 +156,23 @@
     <div class="term-body" id="hackLine"></div>
   </section>
 
-  <section class="card">
+  <section class="card fade-in">
     <h2>⏱️ Time Since Boot</h2>
     <p style="opacity:0.7;font-size:13px;margin-top:8px;">System uptime since 18/11/2000 12:05 PM</p>
     <div class="age-grid" id="ageDisplay"></div>
   </section>
 
-  <section class="card">
+  <section class="card fade-in">
     <h2>About</h2>
-    <p style="line-height:1.8;margin-top:12px;opacity:0.85;">
-      Traveller, Open-source maintainer, Tech Explorer. I build small tools, maintain repos, and learn by doing. I prefer minimal, fast sites — low latency, high curiosity.
-    </p>
+    <div class="typing-container">
+      <p style="line-height:1.8;margin-top:12px;opacity:0.85;" id="aboutText"></p>
+    </div>
     
     <h3 style="margin-top:24px;font-size:14px;opacity:0.7;">Skills</h3>
-    <p style="margin-top:8px;opacity:0.85;">HTML • CSS • JS • Git • Open-source • Linux</p>
-    
-    <h3 style="margin-top:24px;font-size:14px;opacity:0.7;">Note</h3>
-    <p style="margin-top:8px;opacity:0.7;font-size:13px;">
-      Click the avatar to toggle background audio (if supported). Use the contact button to open contact panel.
-    </p>
+    <div class="skills-grid" id="skillsGrid"></div>
   </section>
 
-  <section class="card">
+  <section class="card fade-in">
     <h2>Reach Me</h2>
     <div class="links">
       <a href="https://wa.me/+916235989299" target="_blank" data-text="WhatsApp">WhatsApp</a>
@@ -121,10 +182,11 @@
     </div>
   </section>
 
-  <footer>DESIGNED BY VISHNU PRASAD • 2025</footer>
+  <footer class="fade-in">DESIGNED BY VISHNU PRASAD • 2025</footer>
 </div>
 
 <script>
+// Boot sequence
 const bootLines=[
   "> INITIALIZING SYSTEM...",
   "> CHECKING NETWORK: OK",
@@ -150,6 +212,21 @@ function bootType(){
 }
 bootType();
 
+// Particles
+function createParticles(){
+  const container = document.getElementById('particles');
+  for(let i=0; i<30; i++){
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 8 + 's';
+    particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+    container.appendChild(particle);
+  }
+}
+createParticles();
+
+// Terminal typing
 function typeText(el,text,speed){ 
   let c=0; 
   function t(){ 
@@ -170,6 +247,26 @@ window.addEventListener('load',()=>{
   },1200);
 });
 
+// Typing effect for About text
+function typeAboutText(){
+  const aboutText = "Traveller, Open-source maintainer, Tech Explorer. I build small tools, maintain repos, and learn by doing. I prefer minimal, fast sites — low latency, high curiosity.";
+  const el = document.getElementById('aboutText');
+  let index = 0;
+  
+  function type(){
+    if(index < aboutText.length){
+      el.textContent += aboutText.charAt(index);
+      index++;
+      setTimeout(type, 30);
+    }
+  }
+  
+  setTimeout(type, 2500);
+}
+
+typeAboutText();
+
+// Age calculator with fixed time handling
 const birthDate = new Date('2000-11-18T12:05:00');
 
 function updateAge() {
@@ -181,9 +278,15 @@ function updateAge() {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
   
-  const years = now.getFullYear() - birthDate.getFullYear();
+  let years = now.getFullYear() - birthDate.getFullYear();
   let months = now.getMonth() - birthDate.getMonth();
   let dayOfMonth = now.getDate() - birthDate.getDate();
+  
+  // Adjust for time of day
+  if (now.getHours() < birthDate.getHours() || 
+      (now.getHours() === birthDate.getHours() && now.getMinutes() < birthDate.getMinutes())) {
+    dayOfMonth--;
+  }
   
   if (dayOfMonth < 0) {
     months--;
@@ -192,6 +295,7 @@ function updateAge() {
   }
   
   if (months < 0) {
+    years--;
     months += 12;
   }
   
@@ -229,6 +333,55 @@ function updateAge() {
 
 updateAge();
 setInterval(updateAge, 1000);
+
+// Animated skill bars with scroll trigger
+const skills = [
+  {name: 'HTML', level: 90},
+  {name: 'CSS', level: 85},
+  {name: 'JavaScript', level: 80},
+  {name: 'Git', level: 85},
+  {name: 'Linux', level: 75},
+  {name: 'Open-source', level: 80}
+];
+
+function renderSkills(){
+  const grid = document.getElementById('skillsGrid');
+  skills.forEach((skill, idx) => {
+    const item = document.createElement('div');
+    item.className = 'skill-item';
+    item.style.transitionDelay = `${idx * 0.1}s`;
+    item.innerHTML = `
+      <span class="skill-name">${skill.name}</span>
+      <div class="skill-bar">
+        <div class="skill-fill" style="--skill-width:${skill.level}%"></div>
+      </div>
+    `;
+    grid.appendChild(item);
+  });
+}
+
+renderSkills();
+
+// Intersection Observer for scroll animations
+const observerOptions = {
+  threshold: 0.3,
+  rootMargin: '0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('animate');
+    }
+  });
+}, observerOptions);
+
+// Observe all skill items
+setTimeout(() => {
+  document.querySelectorAll('.skill-item').forEach(item => {
+    observer.observe(item);
+  });
+}, 100);
 </script>
 
 </body>
