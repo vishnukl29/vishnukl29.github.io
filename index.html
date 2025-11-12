@@ -164,6 +164,17 @@ width: 90px;
 height: 90px;
 flex-shrink: 0;
 margin: 0 auto 10px auto;
+order: 1;
+}
+
+header > div:nth-child(2) {
+order: 3;
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+align-items: center;
+text-align: center;
 }
 
 .time-box {
@@ -179,16 +190,6 @@ padding: 6px 10px;
 font-size: 11px;
 text-shadow: 0 0 8px var(--neon-glow);
 order: 2;
-}
-
-header > div:last-child {
-flex: 1;
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
-text-align: center;
-order: 3;
 }
 
 header h1 {
@@ -223,7 +224,6 @@ align-self: center;
 <div class="wrap">
 <header class="fade-in">
 <div class="avatar" title="Vishnu Prasad"><img alt="Vishnu Prasad avatar" src="https://raw.githubusercontent.com/v3shn/web2/ad7f6b9dc70bf47dea9b60d291251215446d283d/1762082384710.jpg"/></div>
-<div class="time-box" id="clockBox">--:--:-- – -- --- ----</div>
 <div>
 <h1 class="glitch">VISHNU PRASAD</h1>
 <div class="handle">Open-source • Explorer</div>
@@ -232,6 +232,7 @@ align-self: center;
 <span>Available for collaboration</span>
 </div>
 </div>
+<div class="time-box" id="clockBox">--:--:-- – -- --- ----</div>
 </header>
 
 <section aria-label="Terminal intro" class="card terminal fade-in">
