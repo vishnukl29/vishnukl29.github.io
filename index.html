@@ -120,10 +120,10 @@ p{font-size:clamp(12px, 3vw, 14px);line-height:1.8;}
 
 .cursor-dot{position:fixed;left:0;top:0;width:10px;height:10px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:screen;opacity:0.9;will-change:transform,opacity}
 
-#themeToggle{position:fixed;right:18px;bottom:18px;z-index:999;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(0,255,157,0.09);padding:10px 12px;border-radius:999px;cursor:pointer;display:flex;gap:10px;align-items:center;backdrop-filter:blur(6px)}
-#themeToggle .dot{width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 6px var(--neon-glow)}
-#themeToggle .label{font-size:13px;opacity:0.9;color:var(--neon);text-shadow:0 0 6px var(--neon-glow);}
-#themeToggle:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+#themeToggle{position:fixed;right:18px;bottom:18px;z-index:999;background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.25);padding:10px 12px;border-radius:999px;cursor:pointer;display:flex;gap:10px;align-items:center;backdrop-filter:blur(6px);transition:all 0.3s ease;}
+#themeToggle .dot{width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon-glow);transition:all 0.3s ease;}
+#themeToggle .label{font-size:13px;opacity:1;color:var(--neon);text-shadow:0 0 8px var(--neon-glow);font-weight:600;}
+#themeToggle:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,255,157,0.2);background:rgba(0,255,157,0.12);border-color:rgba(0,255,157,0.4);}
 
 .time-box {
 display: inline-block;
@@ -151,6 +151,10 @@ margin: 0;
 #themeToggle{right:12px;bottom:12px;padding:8px}
 .age-grid{grid-template-columns:repeat(2,1fr)}
 
+.time-box {
+display: none !important;
+}
+
 header {
 flex-direction: column;
 align-items: center;
@@ -164,32 +168,15 @@ width: 90px;
 height: 90px;
 flex-shrink: 0;
 margin: 0 auto 10px auto;
-order: 1;
 }
 
 header > div:nth-child(2) {
-order: 3;
 flex: 1;
 display: flex;
 flex-direction: column;
 justify-content: flex-start;
 align-items: center;
 text-align: center;
-}
-
-.time-box {
-position: relative;
-width: auto;
-max-width: 90%;
-text-align: center;
-margin: 0 auto 12px auto;
-background: rgba(0, 0, 0, 0.5);
-border: 1px solid rgba(0, 255, 157, 0.3);
-border-radius: 8px;
-padding: 6px 10px;
-font-size: 11px;
-text-shadow: 0 0 8px var(--neon-glow);
-order: 2;
 }
 
 header h1 {
