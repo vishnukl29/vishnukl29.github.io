@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="v3shn - Cyberpunk Portfolio" name="description"/>
+<meta content="v3shn - Portfolio" name="description"/>
 <title>v3shn – Portfolio</title>
 <style>
 :root{
@@ -99,8 +99,10 @@ header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:f
   50% { filter: blur(16px) hue-rotate(45deg); }
 }
 
+.header-text{display:flex;flex-direction:column;gap:4px;}
+
 /* Glitch effect on title */
-h1{font-size:clamp(20px, 5vw, 28px);letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,157,0.25);position:relative;}
+h1{font-size:clamp(20px, 5vw, 28px);letter-spacing:2px;text-shadow:0 0 12px rgba(0,255,157,0.25);position:relative;margin:0;}
 h1:hover{animation:glitch 0.3s ease;}
 @keyframes glitch {
   0% { transform: translate(0); }
@@ -111,14 +113,14 @@ h1:hover{animation:glitch 0.3s ease;}
   100% { transform: translate(0); }
 }
 
-.handle{font-size:clamp(11px, 2.5vw, 12px);opacity:0.75;margin-top:4px}
-.status{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:6px 12px;background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.12);border-radius:20px;font-size:11px;transition:all 0.3s ease;}
+.handle{font-size:clamp(11px, 2.5vw, 12px);opacity:0.75;margin:0;}
+.status{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.12);border-radius:20px;font-size:11px;transition:all 0.3s ease;width:fit-content;}
 .status:hover{background:rgba(0,255,157,0.12);box-shadow:0 0 20px rgba(0,255,157,0.2);}
 .status-dot{width:8px;height:8px;background:var(--neon);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 8px var(--neon);}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.3;transform:scale(1.2);}}
 
-.visit-badge{margin-left:10px;font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);border:1px solid rgba(0,255,157,0.06);transition:all 0.3s ease;}
-.visit-badge:hover{background:rgba(0,255,157,0.1);border-color:rgba(0,255,157,0.2);}
+.visit-badge{position:fixed;top:20px;right:20px;z-index:1000;font-size:12px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,0.6);border:1px solid rgba(0,255,157,0.2);transition:all 0.3s ease;backdrop-filter:blur(8px);}
+.visit-badge:hover{background:rgba(0,255,157,0.1);border-color:rgba(0,255,157,0.3);box-shadow:0 0 15px rgba(0,255,157,0.2);}
 
 /* Enhanced Cards */
 .card{background:var(--card-bg);border:1px solid rgba(0,255,157,0.12);padding:clamp(16px, 4vw, 20px);border-radius:12px;margin-top:20px;backdrop-filter:blur(var(--glass-blur));transition:all 0.3s ease;position:relative;overflow:hidden;}
@@ -187,91 +189,16 @@ p{font-size:clamp(12px, 3vw, 14px);line-height:1.8}
 #themeToggle .dot{width:14px;height:14px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon-glow);transition:all 0.3s ease}
 #themeToggle .label{font-size:13px;opacity:1;color:var(--neon);text-shadow:0 0 8px var(--neon-glow);font-weight:600}
 
-/* Terminal Mode Button */
-#terminalModeBtn {
-  position: fixed;
-  bottom: 18px;
-  left: 18px;
-  z-index: 999;
-  padding: 10px 14px;
-  background: rgba(0,255,157,0.10);
-  border: 1px solid var(--neon);
-  border-radius: 8px;
-  color: var(--neon);
-  font-size: 13px;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: 0.3s ease;
-}
-#terminalModeBtn:hover {
-  background: rgba(0,255,157,0.25);
-  box-shadow: 0 0 20px var(--neon-glow);
-  transform:scale(1.05);
-}
 
-/* Full-Screen Terminal */
-.fs-terminal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  z-index: 99999;
-  color: #00ff9d;
-  font-family: var(--mono);
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  backdrop-filter: blur(8px);
-}
-.fs-terminal.hidden { display: none; }
-.fs-term-header {
-  font-size: 18px;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(0,255,157,0.2);
-  padding-bottom: 6px;
-}
-#closeFsTerm {
-  cursor: pointer;
-  opacity: 0.7;
-  transition:0.3s;
-}
-#closeFsTerm:hover {
-  opacity: 1;
-  color:#ff5f57;
-  transform:scale(1.2);
-}
-.fs-term-output {
-  flex: 1;
-  overflow-y: auto;
-  font-size: 15px;
-  white-space: pre-wrap;
-  margin-bottom: 10px;
-}
-.fs-term-input-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.fs-term-input-line input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #00ff9d;
-  font-size: 16px;
-  font-family: var(--mono);
-}
-.prompt { color: var(--neon); }
 
 footer{text-align:center;margin-top:30px;opacity:0.4;font-size:clamp(11px, 2.5vw, 12px);padding:10px;transition:opacity 0.3s;}
 footer:hover{opacity:0.8;}
 
 @media (max-width: 480px){
-header{flex-direction:column;text-align:center}
+header{flex-direction:column;text-align:center;align-items:center;}
 .avatar{margin:0 auto;width:90px;height:90px}
-header > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
+.header-text{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.visit-badge{top:10px;right:10px;font-size:11px;padding:6px 10px;}
 }
 </style>
 </head>
@@ -298,7 +225,7 @@ header > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
   <span class="label">Theme</span>
 </button>
 
-<button id="terminalModeBtn">Terminal Mode</button>
+<div class="visit-badge" id="visitBadge">Visits: 0</div>
 
 <div id="cursorContainer"></div>
 
@@ -307,12 +234,12 @@ header > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
   <div class="avatar">
     <img alt="Vishnu Prasad avatar" src="https://raw.githubusercontent.com/v3shn/web2/ad7f6b9dc70bf47dea9b60d291251215446d283d/1762082384710.jpg"/>
   </div>
-  <div>
-    <h1>VISHNU PRASAD <span class="visit-badge" id="visitBadge">Visits: 0</span></h1>
+  <div class="header-text">
+    <h1>VISHNU PRASAD</h1>
     <div class="handle">Open-source • Traveller • Hobby Dev</div>
     <div class="status">
       <span class="status-dot"></span>
-      <span>Available for collaboration</span>
+      <span>Online</span>
     </div>
   </div>
 </header>
@@ -328,7 +255,7 @@ header > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
 
 <section class="card fade-in">
   <h2>⏱️ Time Since Boot</h2>
-  <p style="opacity:0.7;font-size:13px;margin-top:8px;">System uptime since 18/11/2000 12:05 PM</p>
+  <p style="opacity:0.7;font-size:13px;margin-top:8px;">Uptime since 18/11/2000 12:05 PM</p>
   <div class="age-grid" id="ageDisplay"></div>
 </section>
 
@@ -358,16 +285,6 @@ header > div:nth-child(2){display:flex;flex-direction:column;align-items:center}
 </section>
 
 <footer class="fade-in">DESIGNED BY VISHNU PRASAD • 2025</footer>
-</div>
-
-<!-- Full-Screen Terminal -->
-<div id="fs-terminal" class="fs-terminal hidden">
-  <div class="fs-term-header">TERMINAL MODE<span id="closeFsTerm">✕</span></div>
-  <div class="fs-term-output" id="fsTermOutput"></div>
-  <div class="fs-term-input-line">
-    <span class="prompt">&gt;</span>
-    <input id="fsTermInput" type="text" autocomplete="off" />
-  </div>
 </div>
 
 <script>
@@ -605,60 +522,6 @@ Hi – I'm Vishnu. I tinker with open-source, travel to collect ideas, and build
     else if(c==='contact' || c==='email') term.textContent = '> Email: v3shn@yahoo.com';
     else if(c==='clear') term.textContent = '';
     else term.textContent = `> command not found: ${cmd}`;
-  });
-})();
-
-/* Full terminal mode */
-(function(){
-  const openBtn = document.getElementById('terminalModeBtn');
-  const fsTerm = document.getElementById('fs-terminal');
-  const closeBtn = document.getElementById('closeFsTerm');
-  const input = document.getElementById('fsTermInput');
-  const output = document.getElementById('fsTermOutput');
-
-  const commands = {
-    help: `Available commands:
-help – show this help
-whoami – show user info
-projects – list projects
-contact – show contact info
-clear – clear terminal`,
-    whoami: 'You are @v3shn – Developer, traveller, open-source maintainer.',
-    projects: `NeonTerm
-WhatsApp Bot
-Linux Tools Pack
-TravelNotes
-TinyStaticCMS`,
-    contact: `Email: v3shn@yahoo.com
-Instagram: @v3shn`,
-  };
-
-  openBtn.addEventListener('click', ()=>{
-    fsTerm.classList.remove('hidden');
-    input.focus();
-    output.textContent += 'Entering Terminal Mode...\nType "help" to begin.\n\n';
-  });
-
-  closeBtn.addEventListener('click', ()=>{
-    fsTerm.classList.add('hidden');
-    output.textContent = '';
-  });
-
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter'){
-      const cmd = input.value.trim().toLowerCase();
-      output.textContent += `> ${cmd}\n`;
-
-      if(cmd === 'clear'){
-        output.textContent = '';
-      } else if(commands[cmd]){
-        output.textContent += commands[cmd] + '\n\n';
-      } else if(cmd.length > 0){
-        output.textContent += `command not found: ${cmd}\n\n`;
-      }
-      input.value = '';
-      output.scrollTop = output.scrollHeight;
-    }
   });
 })();
 </script>
