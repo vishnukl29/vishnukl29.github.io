@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>v3shn</title>
+  <title>Vishnu Prasad – Anime Dev Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary Meta -->
-  <meta name="title" content="v3shn" />
+  <meta name="title" content="Vishnu Prasad – Anime Dev Portfolio" />
   <meta name="description"
         content="Vishnu (v3shn) – traveller, open-source maintainer and hobby dev. Building small tools, neon portfolios and anime-inspired UIs." />
   <link rel="canonical" href="https://vishnu.me/" />
@@ -14,14 +14,14 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vishnu.me/" />
-  <meta property="og:title" content="v3shn" />
+  <meta property="og:title" content="Vishnu Prasad – Anime Dev Portfolio" />
   <meta property="og:description"
         content="Traveller, open-source maintainer and hobby dev. Check out projects, uptime stats and anime-themed UI experiments." />
   <meta property="og:image" content="https://vishnu.me/preview.png" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="v3shn" />
+  <meta name="twitter:title" content="Vishnu Prasad – Anime Dev Portfolio" />
   <meta name="twitter:description"
         content="Traveller, open-source maintainer and hobby dev. Anime-inspired portfolio at vishnu.me." />
   <meta name="twitter:image" content="https://vishnu.me/preview.png" />
@@ -525,12 +525,11 @@
       transform: translateY(-1px);
     }
 
-    /* Hero right card (avatar removed) */
     .hero-right {
       position: relative;
     }
 
-    /* completely hide avatar on all devices */
+    /* hide avatar / floating DP completely */
     .avatar-wrap {
       display: none !important;
     }
@@ -633,7 +632,6 @@
       max-width: 23rem;
     }
 
-    /* Cards + scroll animation */
     .card {
       background: var(--card);
       border-radius: var(--radius-lg);
@@ -678,7 +676,7 @@
       box-shadow: 0 22px 60px rgba(15, 23, 42, 1), var(--accent-glow);
     }
 
-    /* Time since boot (stat boxes) */
+    /* Uptime stats */
     .uptime-meta {
       font-size: 0.8rem;
       color: var(--muted);
@@ -724,7 +722,6 @@
       font-family: var(--font-mono);
     }
 
-    /* About + skills layout */
     .grid-two {
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
@@ -786,7 +783,6 @@
       transform: scaleX(var(--skill-level));
     }
 
-    /* Projects */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -836,7 +832,6 @@
       box-shadow: var(--accent-glow);
     }
 
-    /* Contact */
     .contact-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr);
@@ -1006,6 +1001,7 @@
   </div>
 
   <!-- Anime SFX (add your own files in these paths) -->
+  <!-- Put naruto.mp3, demon.mp3, solo.mp3 into /sounds/ folder or change src paths -->
   <audio id="soundNaruto" src="sounds/naruto.mp3" preload="auto"></audio>
   <audio id="soundDemon" src="sounds/demon.mp3" preload="auto"></audio>
   <audio id="soundSolo" src="sounds/solo.mp3" preload="auto"></audio>
@@ -1480,13 +1476,7 @@ Specialty: dark dashboards, stat-heavy layouts, and glowing system-style UIs tha
           desc: "Static site generator for short travel logs – markdown-first.",
           stack: "Static • JS",
           link: "https://github.com/v3shn/travelnotes",
-        },
-        {
-          title: "TinyStaticCMS",
-          desc: "A minimal content manager for static sites (git-backed).",
-          stack: "Go • Git",
-          link: "https://github.com/v3shn/tinystaticcms",
-        },
+        }
       ];
       const grid = document.getElementById("projectsGrid");
       projects.forEach((p) => {
