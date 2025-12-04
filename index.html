@@ -56,22 +56,6 @@
         Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
-    /* Demon Slayer theme */
-    body[data-theme="demon"] {
-      --accent: #22c55e;
-      --accent-soft: rgba(34, 197, 94, 0.16);
-      --accent-strong: rgba(34, 197, 94, 0.96);
-      --accent-glow: 0 0 24px rgba(34, 197, 94, 0.9);
-    }
-
-    /* Solo Leveling theme */
-    body[data-theme="solo"] {
-      --accent: #3b82f6;
-      --accent-soft: rgba(59, 130, 246, 0.18);
-      --accent-strong: rgba(59, 130, 246, 0.96);
-      --accent-glow: 0 0 26px rgba(59, 130, 246, 0.95);
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -349,17 +333,6 @@
       width: 100%;
     }
 
-    .theme-select {
-      padding: 0.3rem 0.8rem;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(15, 23, 42, 0.96);
-      color: var(--text);
-      font-size: 0.8rem;
-      outline: none;
-      font-family: var(--font-mono);
-    }
-
     .nav-right {
       display: flex;
       align-items: center;
@@ -525,11 +498,12 @@
       transform: translateY(-1px);
     }
 
+    /* Hero right card (avatar removed) */
     .hero-right {
       position: relative;
     }
 
-    /* hide avatar / floating DP completely */
+    /* completely hide avatar on all devices */
     .avatar-wrap {
       display: none !important;
     }
@@ -632,6 +606,7 @@
       max-width: 23rem;
     }
 
+    /* Cards + scroll animation */
     .card {
       background: var(--card);
       border-radius: var(--radius-lg);
@@ -676,7 +651,7 @@
       box-shadow: 0 22px 60px rgba(15, 23, 42, 1), var(--accent-glow);
     }
 
-    /* Uptime stats */
+    /* Time since boot (stat boxes) */
     .uptime-meta {
       font-size: 0.8rem;
       color: var(--muted);
@@ -722,6 +697,7 @@
       font-family: var(--font-mono);
     }
 
+    /* About + skills layout */
     .grid-two {
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
@@ -783,6 +759,7 @@
       transform: scaleX(var(--skill-level));
     }
 
+    /* Projects */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -832,6 +809,7 @@
       box-shadow: var(--accent-glow);
     }
 
+    /* Contact */
     .contact-grid {
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.3fr);
@@ -927,9 +905,7 @@
       border-top: 1px solid rgba(15, 23, 42, 0.9);
     }
 
-    /* === Theme-based font vibes === */
-
-    /* Naruto – playful, scroll-like */
+    /* === Naruto-only font vibes === */
     body[data-theme="naruto"] .hero-title {
       font-family: "Rock Salt", var(--font-sans);
       letter-spacing: 0.03em;
@@ -939,32 +915,6 @@
     body[data-theme="naruto"] .section-title {
       font-family: "M PLUS 1p", var(--font-sans);
       font-weight: 600;
-    }
-
-    /* Demon Slayer – elegant serif */
-    body[data-theme="demon"] .hero-title,
-    body[data-theme="demon"] .section-title {
-      font-family: "Noto Serif JP", var(--font-sans);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-    }
-
-    body[data-theme="demon"] .hero-term {
-      font-family: "Noto Serif JP", var(--font-mono);
-      font-size: 0.8rem;
-    }
-
-    /* Solo Leveling – hyper-modern HUD */
-    body[data-theme="solo"] .hero-title,
-    body[data-theme="solo"] .section-title {
-      font-family: "Orbitron", var(--font-sans);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-    }
-
-    body[data-theme="solo"] .badge,
-    body[data-theme="solo"] .age-label {
-      letter-spacing: 0.2em;
     }
 
     /* Small Japanese-style tag under hero title */
@@ -1000,11 +950,8 @@
     </div>
   </div>
 
-  <!-- Anime SFX (add your own files in these paths) -->
-  <!-- Put naruto.mp3, demon.mp3, solo.mp3 into /sounds/ folder or change src paths -->
+  <!-- Anime SFX (Naruto only) -->
   <audio id="soundNaruto" src="sounds/naruto.mp3" preload="auto"></audio>
-  <audio id="soundDemon" src="sounds/demon.mp3" preload="auto"></audio>
-  <audio id="soundSolo" src="sounds/solo.mp3" preload="auto"></audio>
 
   <div class="bg-grid"></div>
   <div class="orb"></div>
@@ -1039,11 +986,6 @@
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
         <div class="nav-right">
-          <select id="themeSelect" class="theme-select">
-            <option value="naruto">Naruto</option>
-            <option value="demon">Demon Slayer</option>
-            <option value="solo">Solo Leveling</option>
-          </select>
           <button id="soundToggle" class="sound-toggle" type="button">
             🔊 SFX
           </button>
@@ -1064,7 +1006,7 @@
           </p>
           <p class="hero-subtitle" id="heroSubtitle">
             Traveller, open-source maintainer and tech explorer. I build small tools,
-            maintain repos, and learn by doing — with layouts inspired by anime worlds.
+            maintain repos, and learn by doing — with a bit of Konoha energy.
           </p>
 
           <div class="hero-meta">
@@ -1090,7 +1032,6 @@
           <div class="hero-card">
             <div class="scanline-card"></div>
             <div class="hero-card-inner">
-              <!-- avatar-wrap removed visually by CSS -->
               <div class="hero-tag" id="themeTag">NARUTO · LEAF VILLAGE</div>
               <div class="hero-term" id="themeLore">
 $ npm run coffee && echo "welcome to v3shn dot me"
@@ -1271,87 +1212,29 @@ Hi – I'm Vishnu. I tinker with open-source, travel to collect ideas, and build
       });
     });
 
-    // theme switching + SFX
-    const themeSelect = document.getElementById("themeSelect");
-    const heroRole = document.getElementById("heroRole");
-    const heroSubtitle = document.getElementById("heroSubtitle");
-    const themeTag = document.getElementById("themeTag");
-    const themeLore = document.getElementById("themeLore");
-    const heroKanaTag = document.getElementById("heroKanaTag");
-
+    // Naruto-only SFX toggle
     const soundNaruto = document.getElementById("soundNaruto");
-    const soundDemon = document.getElementById("soundDemon");
-    const soundSolo = document.getElementById("soundSolo");
     const soundToggle = document.getElementById("soundToggle");
-
     let sfxMuted = false;
 
-    function playThemeSound(theme) {
+    function playNaruto() {
       if (sfxMuted) return;
-      let sound = null;
-      if (theme === "naruto") sound = soundNaruto;
-      else if (theme === "demon") sound = soundDemon;
-      else if (theme === "solo") sound = soundSolo;
-      if (sound) {
-        try {
-          sound.currentTime = 0;
-          sound.play();
-        } catch (e) {
-          // ignore autoplay errors
-        }
+      if (!soundNaruto) return;
+      try {
+        soundNaruto.currentTime = 0;
+        soundNaruto.play();
+      } catch (e) {
+        // ignore autoplay errors
       }
     }
 
     soundToggle.addEventListener("click", () => {
       sfxMuted = !sfxMuted;
       soundToggle.textContent = sfxMuted ? "🔇 SFX" : "🔊 SFX";
-    });
-
-    function applyTheme(theme) {
-      document.body.setAttribute("data-theme", theme);
-
-      if (theme === "naruto") {
-        heroRole.textContent = "Frontend Shinobi";
-        themeTag.textContent = "NARUTO · LEAF VILLAGE";
-        heroSubtitle.textContent =
-          "Traveller, open-source maintainer and tech explorer. I build small tools, maintain repos, and learn by doing — with a bit of Konoha energy.";
-        themeLore.textContent =
-`$ npm run coffee && echo "welcome to v3shn dot me"
-
-Hi – I'm Vishnu. I tinker with open-source, travel to collect ideas, and build small projects.`;
-        if (heroKanaTag) heroKanaTag.textContent = "木ノ葉の開発者"; // Leaf Village Developer
-
-      } else if (theme === "demon") {
-        heroRole.textContent = "UI Slayer";
-        themeTag.textContent = "DEMON SLAYER · CORPS MEMBER";
-        heroSubtitle.textContent =
-          "Every UI is a breathing form: smooth transitions, precise cuts, and layouts that slice perfectly across devices.";
-        themeLore.textContent =
-`Role: UI Slayer
-Specialty: water-smooth transitions, parallax sections, and pixel-perfect layouts inspired by breathing styles.`;
-        if (heroKanaTag) heroKanaTag.textContent = "鬼を斬るデザイナー"; // Designer who slays demons (UI bugs)
-
-      } else if (theme === "solo") {
-        heroRole.textContent = "Shadow Developer";
-        themeTag.textContent = "SOLO LEVELING · SHADOW MONARCH";
-        heroSubtitle.textContent =
-          "Started as an E-rank dev; leveling up through projects into S-rank dashboards and dark neon interfaces.";
-        themeLore.textContent =
-`Role: Shadow Developer
-Specialty: dark dashboards, stat-heavy layouts, and glowing system-style UIs that feel like level-up screens.`;
-        if (heroKanaTag) heroKanaTag.textContent = "影の開発者"; // Developer of the shadows
+      if (!sfxMuted) {
+        playNaruto();
       }
-    }
-
-    // Only play sound on user-triggered theme changes, not initial load
-    themeSelect.addEventListener("change", (e) => {
-      const value = e.target.value;
-      applyTheme(value);
-      playThemeSound(value);
     });
-
-    // initial theme (no sound)
-    applyTheme(themeSelect.value);
 
     // uptime cards
     (function () {
@@ -1476,7 +1359,13 @@ Specialty: dark dashboards, stat-heavy layouts, and glowing system-style UIs tha
           desc: "Static site generator for short travel logs – markdown-first.",
           stack: "Static • JS",
           link: "https://github.com/v3shn/travelnotes",
-        }
+        },
+        {
+          title: "TinyStaticCMS",
+          desc: "A minimal content manager for static sites (git-backed).",
+          stack: "Go • Git",
+          link: "https://github.com/v3shn/tinystaticcms",
+        },
       ];
       const grid = document.getElementById("projectsGrid");
       projects.forEach((p) => {
