@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>v3shn</title>
+<title>Vishnu Prasad - Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,700;1,900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
 <style>
@@ -176,6 +176,7 @@
     background: var(--white);
     padding-top: 80px;
     overflow: hidden;
+    padding-bottom: 96px; /* reserve space for scroll hint + ticker */
   }
 
   /* Animated background dots */
@@ -436,15 +437,17 @@
 
   /* ── SCROLL HINT ── */
   .scroll-hint {
+    position: absolute;
+    bottom: 52px; /* sits above the ticker */
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    z-index: 2;
-    opacity: 0.45;
-    margin-top: auto;
-    padding-bottom: 8px;
-    flex-shrink: 0;
+    z-index: 6;
+    opacity: 0.5;
+    pointer-events: none;
     animation: fadeInUp 1s 1.5s both;
   }
   .scroll-hint span {
@@ -456,7 +459,7 @@
   }
   .scroll-arrow {
     width: 1.5px;
-    height: 28px;
+    height: 22px;
     background: linear-gradient(to bottom, transparent, var(--orange));
     animation: scrollArrow 1.4s ease-in-out infinite;
   }
@@ -469,9 +472,11 @@
 
   /* ── TICKER ── */
   .ticker {
+    position: absolute;
+    bottom: 0; left: 0;
     width: 100%; background: var(--black);
     padding: 14px 0; overflow: hidden;
-    margin-top: 0;
+    z-index: 5;
     flex-shrink: 0;
   }
   .ticker-track {
@@ -1387,35 +1392,43 @@ typingObserver.observe(aboutSection);
     );
   }
 
-  // Try ip-api.com first (no key needed, reliable)
-  try {
-    const res  = await fetch('http://ip-api.com/json/?fields=status,country,countryCode,regionName,city,timezone');
-    const data = await res.json();
-    if (data.status === 'success') {
-      if (data.timezone) timezone = data.timezone;
-      if (data.countryCode) flagEmoji = countryToFlag(data.countryCode);
-      const parts = [];
-      if (data.city) parts.push(data.city);
-      if (data.regionName && data.regionName !== data.city) parts.push(data.regionName);
-      if (data.country) parts.push(data.country);
-      location = parts.join(', ');
+  // Use multiple HTTPS APIs with fallback
+  const apis = [
+    async () => {
+      const r = await fetch('https://ipapi.co/json/');
+      const d = await r.json();
+      if (!d.country_code) throw new Error('no data');
+      return { tz: d.timezone, cc: d.country_code, city: d.city, region: d.region, country: d.country_name };
+    },
+    async () => {
+      const r = await fetch('https://ipwho.is/');
+      const d = await r.json();
+      if (!d.country_code) throw new Error('no data');
+      return { tz: d.timezone?.id, cc: d.country_code, city: d.city, region: d.region, country: d.country };
+    },
+    async () => {
+      const r = await fetch('https://freeipapi.com/api/json');
+      const d = await r.json();
+      if (!d.countryCode) throw new Error('no data');
+      return { tz: d.timeZone, cc: d.countryCode, city: d.cityName, region: d.regionName, country: d.countryName };
     }
-  } catch(e) {
-    // fallback to ipapi.co
+  ];
+
+  for (const api of apis) {
     try {
-      const res2  = await fetch('https://ipapi.co/json/');
-      const data2 = await res2.json();
-      if (data2.timezone) timezone = data2.timezone;
-      if (data2.country_code) flagEmoji = countryToFlag(data2.country_code);
+      const d = await api();
+      if (d.tz) timezone = d.tz;
+      if (d.cc) flagEmoji = countryToFlag(d.cc);
       const parts = [];
-      if (data2.city) parts.push(data2.city);
-      if (data2.region && data2.region !== data2.city) parts.push(data2.region);
-      if (data2.country_name) parts.push(data2.country_name);
+      if (d.city) parts.push(d.city);
+      if (d.region && d.region !== d.city) parts.push(d.region);
+      if (d.country) parts.push(d.country);
       location = parts.join(', ');
-    } catch(e2) {
-      location = timezone.replace(/_/g, ' ');
-    }
+      break; // success, stop trying
+    } catch(e) { continue; }
   }
+
+  if (!location) location = timezone.replace(/_/g, ' ');
 
   const flagEl = document.getElementById('timeFlag');
   const locEl  = document.getElementById('timeLocation');
