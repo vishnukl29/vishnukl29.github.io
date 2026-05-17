@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishnu Prasad - Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B00;
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════
+     NAV
+  ══════════════════════════════ */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 300;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 64px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  .nav-logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;
+    color: var(--black); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--black);
+    font-weight: 500; font-size: 0.95rem; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+
+  /* Hamburger (mobile) */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px; background: none; border: none;
+  }
+  .hamburger span {
+    display: block; width: 26px; height: 2.5px;
+    background: var(--black); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  /* Mobile nav drawer */
+  .mobile-nav {
+    display: none;
+    position: fixed; top: 60px; left: 0; width: 100%;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    z-index: 299;
+    flex-direction: column;
+    padding: 20px 0 28px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    padding: 14px 32px;
+    text-decoration: none; color: var(--black);
+    font-weight: 600; font-size: 1.1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: color 0.2s;
+  }
+  .mobile-nav a:hover { color: var(--orange); }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    position: relative;
+    background: var(--white);
+    padding-top: 70px;
+    overflow: hidden;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 13vw, 175px);
+    letter-spacing: 6px;
+    color: var(--black);
+    position: absolute;
+    top: 88px;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .hero-center {
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(80px, 14vw, 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    padding: 20px 20px 0;
+  }
+
+  /* Photo */
+  .hero-photo-wrap {
+    position: relative;
+    width: clamp(200px, 28vw, 290px);
+    height: clamp(280px, 38vw, 420px);
+    flex-shrink: 0;
+  }
+  .hero-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    filter:
+      grayscale(100%)
+      drop-shadow(0px  3px 0px var(--orange))
+      drop-shadow(0px -3px 0px var(--orange))
+      drop-shadow( 3px 0px 0px var(--orange))
+      drop-shadow(-3px 0px 0px var(--orange));
+    display: block;
+    position: relative; z-index: 2;
+  }
+
+  /* ── STAT BUBBLES ── */
+  .stat-bubble {
+    position: absolute;
+    background: white;
+    border: 2.5px solid var(--orange);
+    border-radius: 14px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 24px rgba(255,107,0,0.13);
+    white-space: nowrap;
+    z-index: 10;
+    animation: floatY 3s ease-in-out infinite;
+  }
+  .bubble-icon {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; flex-shrink: 0;
+  }
+  .bubble-icon svg { width: 28px; height: 28px; }
+  .bubble-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem; font-weight: 900; line-height: 1;
+    color: var(--black);
+  }
+  .bubble-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem; font-weight: 500;
+    color: var(--gray); display: block; line-height: 1.3;
+    margin-top: 2px;
+  }
+
+  .bubble-edu  { top: -24px;  right: -220px; animation-delay: 0s;   }
+  .bubble-gh   { top: 130px;  left: -240px;  animation-delay: 0.9s; }
+  .bubble-uiux { bottom: 50px; right: -230px; animation-delay: 1.8s; }
+
+  @keyframes floatY {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    width: 100%; background: var(--black);
+    padding: 14px 0; overflow: hidden;
+    margin-top: auto;
+  }
+  .ticker-track {
+    display: flex;
+    animation: tickerMove 22s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 24px; color: white;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .ticker-hex {
+    width: 24px; height: 24px;
+    background: var(--orange);
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    flex-shrink: 0;
+  }
+  @keyframes tickerMove {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ══════════════════════════════
+     ABOUT
+  ══════════════════════════════ */
+  #about {
+    background: var(--black);
+    padding: 90px 64px;
+  }
+  .about-inner {
+    max-width: 1060px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+  }
+  .about-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    color: white; text-align: center;
+    grid-column: 1 / -1;
+    margin-bottom: 10px;
+  }
+  .about-circle {
+    width: clamp(220px, 28vw, 300px);
+    height: clamp(220px, 28vw, 300px);
+    border-radius: 50%; overflow: hidden;
+    border: 4px solid var(--orange);
+    box-shadow: 0 0 50px rgba(255,107,0,0.3);
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+  .about-circle img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    filter: grayscale(100%);
+  }
+
+  .about-text-wrap h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: white; margin-bottom: 18px; letter-spacing: 1px;
+  }
+
+  /* ── Typing animation wrapper ── */
+  .about-bio {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    line-height: 2; color: #bbb; font-weight: 400;
+    min-height: 10em; /* reserve space so layout doesn't jump */
+  }
+  .about-bio .hi-name  { color: var(--orange); font-weight: 700; }
+  .about-bio .hi-place { color: #fff; font-weight: 600; }
+
+  /* Blinking cursor */
+  .typing-cursor {
+    display: inline-block;
+    width: 2px; height: 1.1em;
+    background: var(--orange);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
+
+  /* ══════════════════════════════
+     SKILLS
+  ══════════════════════════════ */
+  #skills {
+    background: var(--white);
+    padding: 90px 64px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 54px);
+    text-align: center; margin-bottom: 52px;
+  }
+  .skills-grid {
+    max-width: 680px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .skill-card {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 18px;
+    padding: 30px 16px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(255,107,0,0.14);
+    border-color: var(--orange);
+  }
+  .skill-card img { width: clamp(48px, 8vw, 70px); height: clamp(48px, 8vw, 70px); object-fit: contain; }
+
+  /* ══════════════════════════════
+     CONTACT
+  ══════════════════════════════ */
+  #contact {
+    background: var(--black);
+    padding: 90px 64px;
+    text-align: center;
+  }
+  #contact .section-title { color: white; }
+  .contact-sub {
+    font-family: 'JetBrains Mono', monospace;
+    color: #555; margin-bottom: 50px; font-size: 0.88rem;
+  }
+  .contact-row {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+  }
+  .contact-icon-btn {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 12px;
+    text-decoration: none;
+    transition: transform 0.25s;
+  }
+  .contact-icon-btn:hover { transform: translateY(-7px); }
+  .contact-icon-btn:hover .icon-ring {
+    border-color: var(--orange);
+    box-shadow: 0 0 30px rgba(255,107,0,0.35);
+  }
+  .icon-ring {
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 2px solid #2a2a2a; background: #181818;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .icon-ring img { width: 44px; height: 44px; border-radius: 8px; }
+  .platform-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    color: #555; text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid #1c1c1c;
+    padding: 24px 40px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    color: #3a3a3a; font-size: 0.78rem;
+  }
+  footer .hl { color: var(--orange); }
+
+  /* ══════════════════════════════
+     MOBILE RESPONSIVE  ≤ 900px
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    nav { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    /* Hero */
+    #hero { padding-top: 60px; }
+    .hero-title {
+      top: 72px;
+      font-size: clamp(38px, 11vw, 80px);
+      letter-spacing: 3px;
+    }
+    .hero-center {
+      margin-top: clamp(60px, 16vw, 120px);
+      padding: 0 16px;
+    }
+    .hero-photo-wrap {
+      width: clamp(160px, 44vw, 240px);
+      height: clamp(220px, 60vw, 330px);
+    }
+
+    /* On mobile hide side bubbles and show them stacked below photo */
+    .bubble-edu, .bubble-gh, .bubble-uiux {
+      position: static;
+      animation: none;
+    }
+    .hero-center {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .bubbles-mobile {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 12px 16px;
+      width: 100%;
+    }
+    .stat-bubble {
+      position: static !important;
+      animation: none !important;
+      font-size: 0.85rem;
+    }
+
+    /* About */
+    #about { padding: 60px 24px; }
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      text-align: center;
+    }
+    .about-heading { grid-column: 1; }
+    .about-circle { width: 200px; height: 200px; }
+    .about-bio { font-size: 0.78rem; line-height: 1.9; min-height: 0; }
+
+    /* Skills */
+    #skills { padding: 60px 20px; }
+    .skills-grid { max-width: 100%; gap: 14px; }
+    .skill-card { padding: 22px 10px; }
+
+    /* Contact */
+    #contact { padding: 60px 20px; }
+    .contact-row { gap: 24px; }
+    .icon-ring { width: 68px; height: 68px; }
+    .icon-ring img { width: 38px; height: 38px; }
+
+    footer { padding: 20px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(30px, 10vw, 52px); letter-spacing: 2px; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .bubble-num { font-size: 1.1rem; }
+    .bubble-label { font-size: 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a class="nav-logo" href="#">Vishnu Prasad</a>
+  <ul class="nav-links">
+    <li><a href="#about">About Me</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile nav drawer -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about"   onclick="closeMenu()">About Me</a>
+  <a href="#skills"  onclick="closeMenu()">Skills</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-title">me_v3shn :)</div>
+
+  <div class="hero-center">
+    <div class="hero-photo-wrap">
+      <img
+        src="https://raw.githubusercontent.com/vishnukl29/vishnukl29.github.io/main/profile.png"
+        alt="Vishnu Prasad"
+        onerror="this.src='https://placehold.co/290x420/111/ff6b00?text=VP'"
+      >
+    </div>
+
+    <!-- Bubbles — shown inline on desktop, stacked on mobile via .bubbles-mobile -->
+    <div class="bubbles-mobile">
+      <div class="stat-bubble bubble-edu">
+        <div class="bubble-icon">💡</div>
+        <div>
+          <div class="bubble-num">+6</div>
+          <span class="bubble-label">Education Experience</span>
+        </div>
+      </div>
+
+      <div class="stat-bubble bubble-gh">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 24 24" fill="#1a1a1a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="bubble-num">+10</div>
+          <span class="bubble-label">Git Hub Repositories</span>
+        </div>
+      </div>
+
+      <div class="stat-bubble bubble-uiux">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+            <rect x="3" y="7" width="42" height="28" rx="3" stroke="#1a1a1a" stroke-width="3"/>
+            <rect x="9" y="13" width="30" height="16" rx="1.5" fill="#ddd"/>
+            <text x="24" y="25" font-family="Arial,sans-serif" font-size="6.5" font-weight="800" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">UI/UX</text>
+            <rect x="18" y="37" width="12" height="3" rx="1" fill="#1a1a1a"/>
+            <line x1="13" y1="43" x2="35" y2="43" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="bubble-num">+1</div>
+          <span class="bubble-label">UI/UX Project</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="about-inner">
+    <h2 class="about-heading">About Me</h2>
+
+    <div class="about-circle">
+      <img
+        src="https://raw.githubusercontent.com/vishnukl29/vishnukl29.github.io/main/profile.png"
+        alt="Vishnu Prasad"
+        onerror="this.src='https://placehold.co/300x300/111/ff6b00?text=VP'"
+      >
+    </div>
+
+    <div class="about-text-wrap">
+      <h2>Hello There! 👋</h2>
+      <p class="about-bio" id="aboutBio"><span class="typing-cursor"></span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <h2 class="section-title">Tools &amp; Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"></div>
+    <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"></div>
+    <div class="skill-card"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS"></div>
+    <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel"></div>
+    <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"></div>
+    <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"></div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <h2 class="section-title">Contact</h2>
+  <p class="contact-sub">// reach me on any platform</p>
+  <div class="contact-row">
+    <a class="contact-icon-btn" href="https://wa.me/13069942093" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <div class="icon-ring"><img src="https://img.icons8.com/color/96/whatsapp--v1.png" alt="WhatsApp"></div>
+      <span class="platform-label">WhatsApp</span>
+    </a>
+    <a class="contact-icon-btn" href="https://instagram.com/v3shn" target="_blank" rel="noopener" aria-label="Instagram">
+      <div class="icon-ring"><img src="https://img.icons8.com/fluency/96/instagram-new.png" alt="Instagram"></div>
+      <span class="platform-label">Instagram</span>
+    </a>
+    <a class="contact-icon-btn" href="https://mail.yahoo.com/d/compose-message?to=v3shn@yahoo.com" target="_blank" rel="noopener" aria-label="Yahoo Mail">
+      <div class="icon-ring"><img src="https://img.icons8.com/color/96/yahoo.png" alt="Yahoo Mail"></div>
+      <span class="platform-label">Yahoo Mail</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  &lt;made with ❤️ by <span class="hl">Vishnu Prasad</span> /&gt;
+</footer>
+
+<script>
+  /* ── Hamburger menu ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+  }
+
+  /* ── Reposition bubbles on desktop ── */
+  function applyBubblePositions() {
+    const isDesktop = window.innerWidth > 900;
+    const edu  = document.querySelector('.bubble-edu');
+    const gh   = document.querySelector('.bubble-gh');
+    const uiux = document.querySelector('.bubble-uiux');
+
+    if (isDesktop) {
+      // Reset to absolute positions inside .hero-center (relative parent)
+      [edu, gh, uiux].forEach(b => b.style.position = 'absolute');
+      edu.style.cssText  += '; top:-24px; right:-220px; left:auto; bottom:auto;';
+      gh.style.cssText   += '; top:130px; left:-240px; right:auto; bottom:auto;';
+      uiux.style.cssText += '; bottom:50px; right:-230px; left:auto; top:auto;';
+    } else {
+      [edu, gh, uiux].forEach(b => b.style.position = 'static');
+    }
+  }
+
+  /* Move bubbles into hero-center on desktop, keep in bubbles-mobile on mobile */
+  function repositionBubbles() {
+    const isDesktop = window.innerWidth > 900;
+    const heroCenter = document.querySelector('.hero-center');
+    const bubblesMobile = document.querySelector('.bubbles-mobile');
+    const edu  = document.querySelector('.bubble-edu');
+    const gh   = document.querySelector('.bubble-gh');
+    const uiux = document.querySelector('.bubble-uiux');
+
+    if (isDesktop) {
+      // Move bubbles directly into hero-center so absolute positioning works
+      if (!heroCenter.contains(edu)) {
+        heroCenter.appendChild(edu);
+        heroCenter.appendChild(gh);
+        heroCenter.appendChild(uiux);
+      }
+      applyBubblePositions();
+    } else {
+      // Move bubbles back into mobile row
+      if (!bubblesMobile.contains(edu)) {
+        bubblesMobile.appendChild(edu);
+        bubblesMobile.appendChild(gh);
+        bubblesMobile.appendChild(uiux);
+      }
+      applyBubblePositions();
+    }
+  }
+
+  window.addEventListener('resize', repositionBubbles);
+  repositionBubbles(); // run on load
+
+  /* ── Typing animation for About Me ── */
+  // We define segments: plain text or highlighted spans
+  const bioSegments = [
+    { type: 'text',  content: 'My name is ' },
+    { type: 'name',  content: 'Vishnu Prasad' },
+    { type: 'text',  content: '. I am 25 years old. I am studying in ' },
+    { type: 'place', content: 'IHRD College of Applied Science, Karthikapally' },
+    { type: 'text',  content: ' and majoring in Software Engineering. Beside of that I have UI/UX Design skills, and my favorite activity when I learn is programming and english.' },
+  ];
+
+  const bioEl = document.getElementById('aboutBio');
+  let segIdx = 0, charIdx = 0;
+  let typingStarted = false;
+
+  function buildBioHTML(segments, currentSeg, currentChar) {
+    let html = '';
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      let text = '';
+      if (i < currentSeg) {
+        text = seg.content;
+      } else if (i === currentSeg) {
+        text = seg.content.slice(0, currentChar);
+      } else {
+        break;
+      }
+      if (!text) continue;
+      if (seg.type === 'name')  html += `<span class="hi-name">${text}</span>`;
+      else if (seg.type === 'place') html += `<span class="hi-place">${text}</span>`;
+      else html += text;
+    }
+    return html;
+  }
+
+  function typeNext() {
+    const seg = bioSegments[segIdx];
+    if (!seg) {
+      // Done typing — remove cursor blink after short delay
+      setTimeout(() => {
+        const cur = bioEl.querySelector('.typing-cursor');
+        if (cur) cur.style.display = 'none';
+      }, 1500);
+      return;
+    }
+
+    charIdx++;
+    if (charIdx > seg.content.length) {
+      segIdx++;
+      charIdx = 0;
+    }
+
+    bioEl.innerHTML = buildBioHTML(bioSegments, segIdx, charIdx) + '<span class="typing-cursor"></span>';
+
+    const delay = (segIdx < bioSegments.length && charIdx === 0) ? 40 : 28;
+    setTimeout(typeNext, delay);
+  }
+
+  // Start typing when About section scrolls into view
+  const aboutSection = document.getElementById('about');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !typingStarted) {
+        typingStarted = true;
+        setTimeout(typeNext, 400);
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(aboutSection);
+</script>
+</body>
+</html>
