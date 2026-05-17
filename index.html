@@ -22,7 +22,7 @@
     background: var(--white);
     color: var(--black);
     overflow-x: hidden;
-    cursor: none;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2 L4 18 L8 14 L12 22 L14 21 L10 13 L16 13 Z' fill='%23FF6B00' stroke='white' stroke-width='1'/%3E%3C/svg%3E") 4 2, auto;
   }
 
   /* ══ SCROLL PROGRESS BAR ══ */
@@ -47,13 +47,6 @@
     transition: background 0.3s;
   }
   nav.scrolled .nav-time { background: #eee; }
-  .nav-time-dot {
-    width: 8px; height: 8px;
-    background: var(--orange);
-    border-radius: 50%;
-    flex-shrink: 0;
-    animation: dotBlink 2s ease-in-out infinite;
-  }
   .nav-time-text {
     display: flex; flex-direction: column; gap: 1px;
   }
@@ -82,28 +75,7 @@
   }
 
   /* ══ CUSTOM CURSOR ══ */
-  .cursor-dot {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--orange);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.05s;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1.5px solid var(--orange);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.12s ease, width 0.2s, height 0.2s, opacity 0.2s;
-    opacity: 0.6;
-  }
-  .cursor-ring.expand { width: 56px; height: 56px; opacity: 0.3; }
+  .cursor-dot, .cursor-ring { display: none; }
 
   /* ══════════════════════════════
      NAV
@@ -160,7 +132,7 @@
   /* Hamburger */
   .hamburger {
     display: none; flex-direction: column; gap: 5px;
-    cursor: none; padding: 4px; background: none; border: none;
+    cursor: inherit; padding: 4px; background: none; border: none;
   }
   .hamburger span {
     display: block; width: 26px; height: 2.5px;
@@ -366,7 +338,8 @@
     z-index: 5;
     position: relative;
     padding: 0;
-    margin-top: -10px;
+    margin-top: 10px;
+    margin-bottom: 28px;
   }
   .btn-primary {
     background: var(--orange);
@@ -377,7 +350,7 @@
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
-    cursor: none;
+    cursor: inherit;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -398,7 +371,7 @@
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
-    cursor: none;
+    cursor: inherit;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -425,7 +398,7 @@
     white-space: nowrap;
     z-index: 10;
     animation: floatY 3s ease-in-out infinite;
-    cursor: none;
+    cursor: inherit;
   }
   .bubble-icon {
     display: flex; align-items: center; justify-content: center;
@@ -495,7 +468,7 @@
   .ticker {
     width: 100%; background: var(--black);
     padding: 14px 0; overflow: hidden;
-    margin-top: auto;
+    margin-top: 0;
   }
   .ticker-track {
     display: flex;
@@ -637,7 +610,7 @@
     border-radius: 50px;
     font-family: 'Outfit', sans-serif;
     font-weight: 700; font-size: 0.85rem;
-    cursor: none; text-decoration: none;
+    cursor: inherit; text-decoration: none;
     display: inline-flex; align-items: center; gap: 7px;
     transition: transform 0.25s, box-shadow 0.25s;
     box-shadow: 0 4px 18px rgba(255,107,0,0.3);
@@ -651,7 +624,7 @@
     border-radius: 50px;
     font-family: 'Outfit', sans-serif;
     font-weight: 600; font-size: 0.85rem;
-    cursor: none; text-decoration: none;
+    cursor: inherit; text-decoration: none;
     display: inline-flex; align-items: center; gap: 7px;
     transition: transform 0.25s, border-color 0.25s, color 0.25s;
   }
@@ -686,7 +659,7 @@
     gap: 12px;
     box-shadow: 0 2px 14px rgba(0,0,0,0.05);
     transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-    cursor: none;
+    cursor: inherit;
   }
   .skill-card:hover {
     transform: translateY(-8px);
@@ -735,7 +708,7 @@
     align-items: center; gap: 12px;
     text-decoration: none;
     transition: transform 0.25s;
-    cursor: none;
+    cursor: inherit;
   }
   .contact-icon-btn:hover { transform: translateY(-7px); }
   .contact-icon-btn:hover .icon-ring {
@@ -777,7 +750,7 @@
     width: 46px; height: 46px;
     background: var(--orange);
     border: none; border-radius: 50%;
-    cursor: none;
+    cursor: inherit;
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 6px 24px rgba(255,107,0,0.4);
     opacity: 0; pointer-events: none;
@@ -792,7 +765,7 @@
      MOBILE RESPONSIVE  ≤ 900px
   ══════════════════════════════ */
   @media (max-width: 900px) {
-    body { cursor: auto; }
+    body { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2 L4 18 L8 14 L12 22 L14 21 L10 13 L16 13 Z' fill='%23FF6B00' stroke='white' stroke-width='1'/%3E%3C/svg%3E") 4 2, auto; }
     .cursor-dot, .cursor-ring { display: none; }
     .nav-time { display: flex; padding: 4px 10px 4px 8px; }
     #timeLocation { font-size: 0.5rem; }
@@ -1006,11 +979,11 @@
 
 <!-- ══ NAV ══ -->
 <nav id="mainNav">
-  <a class="nav-logo" href="#">Vishnu<span>.</span>dev</a>
+  <a class="nav-logo" href="#">Vishnu <span>Prasad</span></a>
 
   <!-- IP-based time widget -->
   <div class="nav-time" id="navTimeWidget">
-    <div class="nav-time-dot"></div>
+    <span id="timeFlag" style="font-size:1.1rem;line-height:1;flex-shrink:0;">🌐</span>
     <div class="nav-time-text">
       <div>
         <span id="timeDisplay">--:--:--</span><span id="timePeriod">--</span>
@@ -1105,12 +1078,6 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
     <a class="btn-outline" href="#contact">Let's Connect</a>
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="scroll-hint">
-    <span>scroll</span>
-    <div class="scroll-arrow"></div>
   </div>
 
   <!-- Ticker -->
@@ -1398,13 +1365,19 @@ typingObserver.observe(aboutSection);
 (async function initTime() {
   let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   let location = '';
+  let flagEmoji = '🌐';
+
+  function countryToFlag(code) {
+    if (!code || code.length !== 2) return '🌐';
+    return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E0 - 65 + c.charCodeAt(0)));
+  }
 
   try {
     const res  = await fetch('https://ipapi.co/json/');
     const data = await res.json();
     if (data.timezone) timezone = data.timezone;
+    if (data.country_code) flagEmoji = countryToFlag(data.country_code);
 
-    // Build "City, Region, Country" or "City, Country"
     const parts = [];
     if (data.city)         parts.push(data.city);
     if (data.region && data.region !== data.city) parts.push(data.region);
@@ -1414,20 +1387,20 @@ typingObserver.observe(aboutSection);
     location = timezone.replace(/_/g, ' ');
   }
 
+  const flagEl = document.getElementById('timeFlag');
   const locEl  = document.getElementById('timeLocation');
   const timeEl = document.getElementById('timeDisplay');
   const perEl  = document.getElementById('timePeriod');
-  if (locEl) locEl.textContent = location;
+  if (flagEl) flagEl.textContent = flagEmoji;
+  if (locEl)  locEl.textContent  = location;
 
   function tick() {
     const now = new Date();
-    // 12-hour time (hours + minutes + seconds)
     const hms = now.toLocaleTimeString('en-US', {
       timeZone: timezone,
       hour: '2-digit', minute: '2-digit', second: '2-digit',
       hour12: true
     });
-    // Split "08:42:05 AM" into time and period
     const match = hms.match(/^(\d{2}:\d{2}:\d{2})\s*(AM|PM)$/i);
     if (match) {
       if (timeEl) timeEl.textContent = match[1];
