@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vishnu Prasad - Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,700;1,900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B00;
+    --orange-dim: rgba(255,107,0,0.15);
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --gray: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2 L4 18 L8 14 L12 22 L14 21 L10 13 L16 13 Z' fill='%23FF6B00' stroke='white' stroke-width='1'/%3E%3C/svg%3E") 4 2, auto;
+  }
+
+  /* ══ SCROLL PROGRESS BAR ══ */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--orange), #ffaa00);
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  /* ══ IP TIME WIDGET ══ */
+  .nav-time {
+    display: flex; align-items: center; gap: 10px;
+    background: #f5f5f5;
+    border: 1px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 6px 14px 6px 10px;
+    white-space: nowrap;
+    transition: background 0.3s;
+    flex-shrink: 0;
+  }
+  nav.scrolled .nav-time { background: #eee; }
+  .nav-time-text {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  #timeDisplay {
+    font-family: 'Digital-7 Mono', 'Digital-7', 'Courier New', monospace;
+    font-size: 1.15rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    color: var(--black);
+    line-height: 1;
+  }
+  #timePeriod {
+    font-family: 'Digital-7 Mono', 'Digital-7', 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--orange);
+    margin-left: 4px;
+    letter-spacing: 1px;
+  }
+  #timeLocation {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 500;
+    color: #888;
+    letter-spacing: 0.3px;
+    line-height: 1;
+  }
+
+  /* ══ CUSTOM CURSOR ══ */
+  .cursor-dot, .cursor-ring { display: none; }
+
+  /* ══════════════════════════════
+     NAV
+  ══════════════════════════════ */
+  nav {
+    position: fixed; top: 3px; width: 100%; z-index: 300;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 64px;
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    transition: box-shadow 0.3s;
+    gap: 16px;
+  }
+  nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+  .nav-logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px;
+    color: var(--black); text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 36px; list-style: none; flex-shrink: 0; }
+  .nav-links a {
+    text-decoration: none; color: var(--black);
+    font-weight: 500; font-size: 0.95rem;
+    position: relative; padding-bottom: 4px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+  .nav-links a:hover { color: var(--orange); }
+
+  /* Hire Me nav button */
+  .nav-hire-btn {
+    background: var(--orange);
+    color: white !important;
+    padding: 8px 20px !important;
+    border-radius: 50px;
+    font-weight: 700 !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-hire-btn::after { display: none !important; }
+  .nav-hire-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(255,107,0,0.4) !important;
+    color: white !important;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px; background: none; border: none;
+    flex-shrink: 0;
+  }
+  .hamburger span {
+    display: block; width: 26px; height: 2.5px;
+    background: var(--black); border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+  .mobile-nav {
+    display: none;
+    position: fixed; top: 60px; left: 0; width: 100%;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    z-index: 299;
+    flex-direction: column;
+    padding: 20px 0 28px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    padding: 14px 32px;
+    text-decoration: none; color: var(--black);
+    font-weight: 600; font-size: 1.1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .mobile-nav a:hover { color: var(--orange); }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  #hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    background: var(--white);
+    padding-top: 88px;
+    overflow: hidden;
+    padding-bottom: 96px;
+  }
+
+  /* Animated background dots */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-bg-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--orange);
+    opacity: 0.06;
+    animation: bgDotFloat linear infinite;
+  }
+
+  /* ── TITLE ── */
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(48px, 10vw, 148px);
+    letter-spacing: -2px;
+    color: var(--black);
+    position: relative;
+    z-index: 2;
+    line-height: 1;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-wrap: nowrap;
+    margin-top: 12px;
+    flex-shrink: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-title .t-letter {
+    display: inline-block;
+    animation: letterWave 2.4s ease-in-out infinite;
+    will-change: transform;
+  }
+  .hero-title .t-letter:nth-child(1)  { animation-delay: 0s; }
+  .hero-title .t-letter:nth-child(2)  { animation-delay: 0.1s; }
+  .hero-title .t-letter:nth-child(3)  { animation-delay: 0.2s; }
+  .hero-title .t-letter:nth-child(4)  { animation-delay: 0.3s; }
+  .hero-title .t-letter:nth-child(5)  { animation-delay: 0.4s; }
+  .hero-title .t-letter:nth-child(6)  { animation-delay: 0.5s; }
+  .hero-title .t-letter:nth-child(7)  { animation-delay: 0.6s; }
+  .hero-title .t-letter:nth-child(8)  { animation-delay: 0.7s; }
+  .hero-title .t-letter:nth-child(9)  { animation-delay: 0.8s; }
+  .hero-title .t-letter:nth-child(10) { animation-delay: 0.9s; }
+  .hero-title .t-letter:nth-child(11) { animation-delay: 1.0s; }
+
+  .hero-title .t-accent { color: var(--orange); }
+
+  @keyframes letterWave {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    30%       { transform: translateY(-14px) rotate(-1deg); }
+    60%       { transform: translateY(4px) rotate(0.5deg); }
+  }
+
+  /* ── HERO CENTER ── */
+  .hero-center {
+    position: relative;
+    z-index: 2;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    flex-shrink: 0;
+  }
+
+  /* ── PHOTO ── */
+  .hero-photo-wrap {
+    position: relative;
+    width: clamp(180px, 24vw, 270px);
+    height: clamp(240px, 32vw, 380px);
+    flex-shrink: 0;
+  }
+
+  .hero-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    filter: grayscale(100%)
+      drop-shadow(0px  3px 0px var(--orange))
+      drop-shadow(0px -3px 0px var(--orange))
+      drop-shadow( 3px 0px 0px var(--orange))
+      drop-shadow(-3px 0px 0px var(--orange));
+    display: block;
+    position: relative; z-index: 2;
+    transition: filter 0.4s ease;
+  }
+  .hero-photo-wrap:hover img {
+    filter: grayscale(0%)
+      drop-shadow(0px  4px 0px var(--orange))
+      drop-shadow(0px -4px 0px var(--orange))
+      drop-shadow( 4px 0px 0px var(--orange))
+      drop-shadow(-4px 0px 0px var(--orange));
+  }
+
+  /* ── PHOTO OVERLAY CARD ── */
+  .photo-overlay-card {
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: white;
+    border: 2px solid var(--orange);
+    border-radius: 14px;
+    padding: 10px 22px 12px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(255,107,0,0.22);
+    white-space: nowrap;
+    animation: cardPulse 3s ease-in-out infinite;
+  }
+  .overlay-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--black);
+    letter-spacing: -0.3px;
+  }
+  .overlay-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--orange);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2px;
+  }
+  .overlay-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: dotBlink 1.5s ease-in-out infinite;
+  }
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes cardPulse {
+    0%, 100% { box-shadow: 0 10px 40px rgba(255,107,0,0.22); }
+    50% { box-shadow: 0 14px 50px rgba(255,107,0,0.38); }
+  }
+
+  /* ── CTA BUTTONS ── */
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 5;
+    position: relative;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 6px 24px rgba(255,107,0,0.35);
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(255,107,0,0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--black);
+    border: 2px solid var(--black);
+    padding: 10px 26px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.25s, border-color 0.25s, color 0.25s;
+  }
+  .btn-outline:hover {
+    transform: translateY(-3px);
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  /* ── STAT BUBBLES ── */
+  .stat-bubble {
+    position: absolute;
+    background: white;
+    border: 2.5px solid var(--orange);
+    border-radius: 14px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 24px rgba(255,107,0,0.13);
+    white-space: nowrap;
+    z-index: 10;
+    animation: floatY 3s ease-in-out infinite;
+    cursor: default;
+  }
+  .bubble-icon {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; flex-shrink: 0;
+  }
+  .bubble-icon svg { width: 28px; height: 28px; }
+  .bubble-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem; font-weight: 900; line-height: 1;
+    color: var(--black);
+  }
+  .bubble-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem; font-weight: 500;
+    color: var(--gray); display: block; line-height: 1.3;
+    margin-top: 2px;
+  }
+  .bubble-edu  { top: -24px;  right: -220px; animation-delay: 0s;   }
+  .bubble-gh   { top: 130px;  left: -240px;  animation-delay: 0.9s; }
+  .bubble-uiux { bottom: 50px; right: -230px; animation-delay: 1.8s; }
+
+  @keyframes floatY {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+  @keyframes bgDotFloat {
+    0%   { transform: translateY(0) scale(1); opacity: 0.05; }
+    50%  { opacity: 0.1; }
+    100% { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+  }
+
+  /* ── SCROLL HINT ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    z-index: 6;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: fadeInUp 1s 1.5s both;
+  }
+  .scroll-hint span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--black);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+  .scroll-arrow {
+    width: 1.5px;
+    height: 22px;
+    background: linear-gradient(to bottom, transparent, var(--orange));
+    animation: scrollArrow 1.4s ease-in-out infinite;
+  }
+  @keyframes scrollArrow {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; background: var(--black);
+    padding: 14px 0; overflow: hidden;
+    z-index: 5;
+    flex-shrink: 0;
+  }
+  .ticker-track {
+    display: flex;
+    animation: tickerMove 22s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 0 24px; color: white;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .ticker-hex {
+    width: 24px; height: 24px;
+    background: var(--orange);
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    flex-shrink: 0;
+  }
+  @keyframes tickerMove {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ══════════════════════════════
+     SECTION REVEAL ANIMATION
+  ══════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════
+     ABOUT
+  ══════════════════════════════ */
+  #about {
+    background: var(--black);
+    padding: 90px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  #about::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,0,0.07), transparent 70%);
+    pointer-events: none;
+  }
+  #about::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,107,0,0.07), transparent 70%);
+    pointer-events: none;
+  }
+  .about-inner {
+    max-width: 1060px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .about-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(36px, 5vw, 64px);
+    color: white; text-align: center;
+    grid-column: 1 / -1;
+    margin-bottom: 10px;
+  }
+  .about-heading span { color: var(--orange); }
+  .about-circle {
+    width: clamp(220px, 28vw, 300px);
+    height: clamp(220px, 28vw, 300px);
+    border-radius: 50%; overflow: hidden;
+    border: 4px solid var(--orange);
+    box-shadow: 0 0 60px rgba(255,107,0,0.3);
+    margin: 0 auto;
+    flex-shrink: 0;
+    transition: box-shadow 0.4s;
+  }
+  .about-circle:hover {
+    box-shadow: 0 0 90px rgba(255,107,0,0.5);
+  }
+  .about-circle img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    filter: grayscale(100%);
+    transition: filter 0.4s;
+  }
+  .about-circle:hover img { filter: grayscale(0%); }
+
+  .about-text-wrap h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: white; margin-bottom: 18px;
+  }
+  .about-bio {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    line-height: 2; color: #bbb; font-weight: 400;
+    min-height: 10em;
+  }
+  .about-bio .hi-name  { color: var(--orange); font-weight: 700; }
+  .about-bio .hi-place { color: #fff; font-weight: 600; }
+  .typing-cursor {
+    display: inline-block;
+    width: 2px; height: 1.1em;
+    background: var(--orange);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .about-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-orange-sm {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700; font-size: 0.85rem;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 18px rgba(255,107,0,0.3);
+  }
+  .btn-orange-sm:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,107,0,0.45); }
+  .btn-ghost-sm {
+    background: transparent;
+    color: #aaa;
+    border: 1.5px solid #333;
+    padding: 9px 22px;
+    border-radius: 50px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600; font-size: 0.85rem;
+    cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: transform 0.25s, border-color 0.25s, color 0.25s;
+  }
+  .btn-ghost-sm:hover { transform: translateY(-3px); border-color: var(--orange); color: var(--orange); }
+
+  /* ══════════════════════════════
+     SKILLS
+  ══════════════════════════════ */
+  #skills {
+    background: var(--white);
+    padding: 90px 64px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(32px, 5vw, 58px);
+    text-align: center; margin-bottom: 52px;
+    color: var(--black);
+  }
+  .section-title span { color: var(--orange); }
+  .skills-grid {
+    max-width: 760px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .skill-card {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 20px;
+    padding: 30px 16px 20px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px;
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(255,107,0,0.15);
+    border-color: var(--orange);
+  }
+  .skill-card img { width: clamp(48px, 8vw, 68px); height: clamp(48px, 8vw, 68px); object-fit: contain; }
+  .skill-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    color: #555; text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  /* ══════════════════════════════
+     CONTACT
+  ══════════════════════════════ */
+  #contact {
+    background: var(--black);
+    padding: 90px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #contact::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,107,0,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  #contact .section-title { color: white; position: relative; z-index: 1; }
+  .contact-sub {
+    font-family: 'JetBrains Mono', monospace;
+    color: #555; margin-bottom: 50px; font-size: 0.88rem;
+    position: relative; z-index: 1;
+  }
+  .contact-row {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .contact-icon-btn {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 12px;
+    text-decoration: none;
+    transition: transform 0.25s;
+    cursor: pointer;
+  }
+  .contact-icon-btn:hover { transform: translateY(-7px); }
+  .contact-icon-btn:hover .icon-ring {
+    border-color: var(--orange);
+    box-shadow: 0 0 30px rgba(255,107,0,0.35);
+  }
+  .icon-ring {
+    width: 80px; height: 80px; border-radius: 50%;
+    border: 2px solid #2a2a2a; background: #181818;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .icon-ring img { width: 44px; height: 44px; border-radius: 8px; }
+  .platform-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    color: #555; text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid #1c1c1c;
+    padding: 24px 40px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    color: #3a3a3a; font-size: 0.78rem;
+    display: flex; justify-content: center; align-items: center;
+    gap: 16px; flex-wrap: wrap;
+  }
+  footer .hl { color: var(--orange); }
+
+  /* ══ SCROLL TO TOP ══ */
+  #scrollTop {
+    position: fixed;
+    bottom: 32px; right: 32px;
+    width: 46px; height: 46px;
+    background: var(--orange);
+    border: none; border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 24px rgba(255,107,0,0.4);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 400;
+  }
+  #scrollTop.show { opacity: 1; pointer-events: all; }
+  #scrollTop:hover { transform: translateY(-4px); }
+  #scrollTop svg { width: 20px; height: 20px; }
+
+  /* ══════════════════════════════
+     SPOTIFY TAB WIDGET (NEW)
+  ══════════════════════════════ */
+  #sp-tab {
+    position: fixed;
+    bottom: 0;
+    left: 24px;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* The tab handle (always visible) */
+  #sp-handle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #1DB954;
+    color: white;
+    padding: 7px 16px 7px 12px;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    user-select: none;
+    box-shadow: 0 -4px 16px rgba(29,185,84,0.25);
+    transition: background 0.2s;
+  }
+  #sp-handle:hover { background: #1ed760; }
+  #sp-handle svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .sp-handle-arrow {
+    margin-left: 4px;
+    font-size: 0.7rem;
+    transition: transform 0.3s;
+    line-height: 1;
+  }
+  #sp-tab.open .sp-handle-arrow { transform: rotate(180deg); }
+
+  /* The panel (slides up) */
+  #sp-panel {
+    width: 280px;
+    background: #121212;
+    border-radius: 0 12px 0 0;
+    padding: 0;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
+  }
+  #sp-tab.open #sp-panel {
+    max-height: 340px;
+    padding: 16px 16px 14px;
+  }
+
+  /* Panel inner layout */
+  .sp-panel-header {
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 12px;
+  }
+  .sp-panel-header svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .sp-now-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.65rem; font-weight: 700;
+    color: #1DB954;
+    text-transform: uppercase; letter-spacing: 1.5px;
+  }
+
+  /* Animated bars */
+  .sp-bars {
+    display: flex; align-items: flex-end; gap: 2px;
+    height: 14px; margin-left: auto;
+  }
+  .sp-bar {
+    width: 3px; background: #1DB954;
+    border-radius: 2px;
+    animation: spBarAnim 0.9s ease-in-out infinite alternate;
+  }
+  .sp-bar:nth-child(1) { animation-duration: 0.7s; }
+  .sp-bar:nth-child(2) { animation-duration: 1.0s; animation-delay: 0.15s; }
+  .sp-bar:nth-child(3) { animation-duration: 0.8s; animation-delay: 0.3s; }
+  @keyframes spBarAnim { from { height: 4px; } to { height: 14px; } }
+
+  /* Album art */
+  .sp-art-large {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #2a2a2a;
+    display: block;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+  }
+  .sp-art-large:hover { transform: scale(1.02); }
+
+  .sp-track-info { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .sp-art-small {
+    width: 42px; height: 42px;
+    border-radius: 6px; object-fit: cover;
+    background: #2a2a2a; flex-shrink: 0;
+  }
+  .sp-info { flex: 1; min-width: 0; }
+  .sp-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem; font-weight: 700; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sp-artist {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.73rem; font-weight: 400; color: #aaa;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-top: 2px;
+  }
+  .sp-album {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.67rem; color: #666;
+    margin-top: 1px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .sp-progress-wrap {
+    width: 100%; height: 3px;
+    background: #333; border-radius: 2px; overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .sp-progress-bar {
+    height: 100%; background: #1DB954;
+    border-radius: 2px; width: 0%;
+    transition: width 1s linear;
+  }
+
+  .sp-open-btn {
+    display: block; text-align: center;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    color: #fff; background: #1DB954;
+    border-radius: 50px; padding: 8px 0;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .sp-open-btn:hover { background: #1ed760; transform: translateY(-1px); }
+
+  /* ══════════════════════════════
+     MOBILE RESPONSIVE  ≤ 900px
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+    .cursor-dot, .cursor-ring { display: none; }
+    nav { padding: 14px 20px; gap: 12px; }
+    .nav-time { display: flex; padding: 4px 10px 4px 8px; }
+    #timeLocation { font-size: 0.5rem; }
+    #timeDisplay { font-size: 0.95rem; }
+    #timePeriod { font-size: 0.6rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; cursor: pointer; }
+
+    #hero { padding-top: 72px; min-height: 100vh; min-height: 100dvh; padding-bottom: 100px; }
+    .hero-title {
+      font-size: clamp(36px, 10vw, 72px);
+      letter-spacing: 0px;
+      margin-top: 8px;
+    }
+    .hero-center {
+      margin-top: 6px;
+      padding: 0 16px;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-photo-wrap {
+      width: clamp(130px, 36vw, 200px);
+      height: clamp(180px, 48vw, 280px);
+    }
+    .bubble-edu, .bubble-gh, .bubble-uiux {
+      position: static !important;
+      animation: none !important;
+    }
+    .bubbles-mobile {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 12px 8px;
+      width: 100%;
+    }
+    .stat-bubble {
+      position: static !important;
+      animation: none !important;
+      font-size: 0.85rem;
+    }
+    .hero-cta { position: static; transform: none; margin-top: 6px; flex-wrap: wrap; justify-content: center; }
+    .scroll-hint { bottom: 56px; }
+    #about { padding: 60px 24px; }
+    .about-inner { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+    .about-heading { grid-column: 1; }
+    .about-circle { width: 200px; height: 200px; }
+    .about-bio { font-size: 0.78rem; line-height: 1.9; min-height: 0; }
+    .about-cta { justify-content: center; }
+    #skills { padding: 60px 20px; }
+    .skills-grid { max-width: 100%; gap: 14px; }
+    .skill-card { padding: 22px 10px 14px; }
+    #contact { padding: 60px 20px; }
+    .contact-row { gap: 24px; }
+    .icon-ring { width: 68px; height: 68px; }
+    .icon-ring img { width: 38px; height: 38px; }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; }
+    #scrollTop { bottom: 20px; right: 20px; cursor: pointer; }
+
+    /* Spotify tab on mobile */
+    #sp-tab { left: 12px; }
+    #sp-panel { width: calc(100vw - 24px); max-width: 320px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: clamp(30px, 10vw, 52px); letter-spacing: 0; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .bubble-num { font-size: 1.1rem; }
+    .bubble-label { font-size: 0.6rem; }
+    nav { padding: 12px 16px; }
+    .nav-time { padding: 4px 8px 4px 7px; gap: 7px; }
+    #timeDisplay { font-size: 0.85rem; }
+    .hero-cta { gap: 10px; }
+    .btn-primary, .btn-outline { font-size: 0.82rem; padding: 10px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Scroll progress bar -->
+<div id="progress-bar"></div>
+
+<!-- Scroll to top -->
+<button id="scrollTop" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"/>
+  </svg>
+</button>
+
+<!-- ══ SPOTIFY TAB WIDGET ══ -->
+<div id="sp-tab">
+  <!-- Tab handle -->
+  <div id="sp-handle" onclick="toggleSpotify()" role="button" aria-label="Toggle Spotify player">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+    <span>Now Listening</span>
+    <span class="sp-handle-arrow">▲</span>
+  </div>
+
+  <!-- Expanded panel -->
+  <div id="sp-panel">
+    <div class="sp-panel-header">
+      <svg viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <span class="sp-now-label">Vibing To</span>
+      <div class="sp-bars">
+        <div class="sp-bar"></div>
+        <div class="sp-bar"></div>
+        <div class="sp-bar"></div>
+      </div>
+    </div>
+
+    <!-- Large album art -->
+    <img class="sp-art-large" id="spArtLarge"
+      src="https://i.scdn.co/image/ab67616d0000b273f3b2b6d0c2b7b0a1b4e7b8e6"
+      alt="Album Art"
+      onerror="this.src='https://placehold.co/280x120/1DB954/fff?text=♫'"
+    >
+
+    <!-- Track info row -->
+    <div class="sp-track-info">
+      <img class="sp-art-small" id="spArtSmall"
+        src="https://i.scdn.co/image/ab67616d0000b273f3b2b6d0c2b7b0a1b4e7b8e6"
+        alt="Album Art"
+        onerror="this.src=''"
+      >
+      <div class="sp-info">
+        <div class="sp-title" id="spTitle">Loading…</div>
+        <div class="sp-artist" id="spArtist">—</div>
+        <div class="sp-album" id="spAlbum">—</div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="sp-progress-wrap">
+      <div class="sp-progress-bar" id="spProgress" style="width:42%"></div>
+    </div>
+
+    <!-- Open on Spotify -->
+    <a class="sp-open-btn" id="spBtn"
+       href="https://open.spotify.com/track/2cDyQDAoP0cPQXzaviXu2f"
+       target="_blank" rel="noopener">
+      ▶ Open on Spotify
+    </a>
+  </div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="mainNav">
+  <a class="nav-logo" href="#">Vishnu <span>Prasad</span></a>
+
+  <!-- IP-based time widget -->
+  <div class="nav-time" id="navTimeWidget">
+    <span id="timeFlag" style="font-size:1.1rem;line-height:1;flex-shrink:0;">🌐</span>
+    <div class="nav-time-text">
+      <div>
+        <span id="timeDisplay">--:--:--</span><span id="timePeriod">--</span>
+      </div>
+      <span id="timeLocation">Locating…</span>
+    </div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#about" data-section="about">About Me</a></li>
+    <li><a href="#skills" data-section="skills">Skills</a></li>
+    <li><a href="#contact" data-section="contact">Contact</a></li>
+    <li><a href="#contact" class="nav-hire-btn">Hire Me ✦</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about"   onclick="closeMenu()">About Me</a>
+  <a href="#skills"  onclick="closeMenu()">Skills</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="#contact" onclick="closeMenu()" style="color:var(--orange)">Hire Me ✦</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+
+  <!-- Animated background dots -->
+  <div class="hero-bg" id="heroBg"></div>
+
+  <!-- Animated italic title -->
+  <div class="hero-title" id="heroTitle"></div>
+
+  <div class="hero-center">
+    <div class="hero-photo-wrap">
+      <img
+        src="https://raw.githubusercontent.com/vishnukl29/vishnukl29.github.io/main/profile.png"
+        alt="Vishnu Prasad"
+        onerror="this.src='https://placehold.co/290x420/111/ff6b00?text=VP'"
+      >
+      <!-- Overlay card restored -->
+      <div class="photo-overlay-card">
+        <div class="overlay-name">Vishnu Prasad</div>
+        <div class="overlay-role"><span class="overlay-dot"></span>Available for Work</div>
+      </div>
+    </div>
+
+    <!-- Bubbles -->
+    <div class="bubbles-mobile">
+      <div class="stat-bubble bubble-edu">
+        <div class="bubble-icon">💡</div>
+        <div>
+          <div class="bubble-num">+6</div>
+          <span class="bubble-label">Education Experience</span>
+        </div>
+      </div>
+
+      <div class="stat-bubble bubble-gh">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 24 24" fill="#1a1a1a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="bubble-num">+10</div>
+          <span class="bubble-label">GitHub Repositories</span>
+        </div>
+      </div>
+
+      <div class="stat-bubble bubble-uiux">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+            <rect x="3" y="7" width="42" height="28" rx="3" stroke="#1a1a1a" stroke-width="3"/>
+            <rect x="9" y="13" width="30" height="16" rx="1.5" fill="#ddd"/>
+            <text x="24" y="25" font-family="Arial,sans-serif" font-size="6.5" font-weight="800" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">UI/UX</text>
+            <rect x="18" y="37" width="12" height="3" rx="1" fill="#1a1a1a"/>
+            <line x1="13" y1="43" x2="35" y2="43" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="bubble-num">+1</div>
+          <span class="bubble-label">UI/UX Project</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA Buttons -->
+  <div class="hero-cta">
+    <a class="btn-primary" href="#skills">
+      View My Work
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+    <a class="btn-outline" href="#contact">Let's Connect</a>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>Software Engineer</div>
+      <div class="ticker-item"><div class="ticker-hex"></div>UI/UX Designer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="about-inner">
+    <h2 class="about-heading reveal">About <span>Me</span></h2>
+
+    <div class="about-circle reveal reveal-delay-1">
+      <img
+        src="https://raw.githubusercontent.com/vishnukl29/vishnukl29.github.io/main/profile.png"
+        alt="Vishnu Prasad"
+        onerror="this.src='https://placehold.co/300x300/111/ff6b00?text=VP'"
+      >
+    </div>
+
+    <div class="about-text-wrap reveal reveal-delay-2">
+      <h2>Hello There! 👋</h2>
+      <p class="about-bio" id="aboutBio"><span class="typing-cursor"></span></p>
+      <div class="about-cta">
+        <a class="btn-orange-sm" href="https://github.com/vishnukl29" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          GitHub
+        </a>
+        <a class="btn-ghost-sm" href="#contact">
+          Contact Me →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <h2 class="section-title reveal">Tools &amp; <span>Skills</span></h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-delay-1">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+      <span class="skill-name">HTML5</span>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+      <span class="skill-name">CSS3</span>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS">
+      <span class="skill-name">Tailwind CSS</span>
+    </div>
+    <div class="skill-card reveal reveal-delay-1">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel">
+      <span class="skill-name">Laravel</span>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma">
+      <span class="skill-name">Figma</span>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+      <span class="skill-name">VS Code</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+  <p class="contact-sub reveal">// reach me on any platform</p>
+  <div class="contact-row reveal reveal-delay-1">
+    <a class="contact-icon-btn" href="https://wa.me/13069942093" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <div class="icon-ring"><img src="https://img.icons8.com/color/96/whatsapp--v1.png" alt="WhatsApp"></div>
+      <span class="platform-label">WhatsApp</span>
+    </a>
+    <a class="contact-icon-btn" href="https://instagram.com/v3shn" target="_blank" rel="noopener" aria-label="Instagram">
+      <div class="icon-ring"><img src="https://img.icons8.com/fluency/96/instagram-new.png" alt="Instagram"></div>
+      <span class="platform-label">Instagram</span>
+    </a>
+    <a class="contact-icon-btn" href="https://mail.yahoo.com/d/compose-message?to=v3shn@yahoo.com" target="_blank" rel="noopener" aria-label="Yahoo Mail">
+      <div class="icon-ring"><img src="https://img.icons8.com/color/96/yahoo.png" alt="Yahoo Mail"></div>
+      <span class="platform-label">Yahoo Mail</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <span>&lt;made with ❤️ by <span class="hl">Vishnu Prasad</span> /&gt;</span>
+  <span style="color:#222">|</span>
+  <span style="color:#2a2a2a">© 2025 v3shn.me</span>
+</footer>
+
+<script>
+/* ── Custom cursor (desktop only) ── */
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+  (function animRing() {
+    rx += (mx - rx) * 0.14;
+    ry += (my - ry) * 0.14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a, button, .skill-card, .stat-bubble').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+  });
+}
+
+/* ── Animated title: letter by letter ── */
+(function buildTitle() {
+  const raw = 'me_v3shn :)';
+  const accentIdx = [2, 7];
+  const titleEl = document.getElementById('heroTitle');
+  raw.split('').forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.classList.add('t-letter');
+    if (accentIdx.includes(i)) span.classList.add('t-accent');
+    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    titleEl.appendChild(span);
+  });
+})();
+
+/* ── Animated background dots ── */
+(function spawnDots() {
+  const bg = document.getElementById('heroBg');
+  for (let i = 0; i < 18; i++) {
+    const d = document.createElement('div');
+    d.className = 'hero-bg-dot';
+    const size = Math.random() * 60 + 20;
+    d.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${8 + Math.random()*14}s;
+      animation-delay:-${Math.random()*12}s;
+    `;
+    bg.appendChild(d);
+  }
+})();
+
+/* ── Scroll progress bar ── */
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  if (total > 0) progressBar.style.width = (window.scrollY / total * 100) + '%';
+});
+
+/* ── Scroll to top button ── */
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('show', window.scrollY > 400);
+});
+
+/* ── Nav scroll shadow & active links ── */
+const mainNav = document.getElementById('mainNav');
+const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+const sections = ['about','skills','contact'].map(id => document.getElementById(id));
+window.addEventListener('scroll', () => {
+  mainNav.classList.toggle('scrolled', window.scrollY > 50);
+  let current = '';
+  sections.forEach(s => {
+    if (s && window.scrollY >= s.offsetTop - 140) current = s.id;
+  });
+  navLinks.forEach(a => a.classList.toggle('active', a.dataset.section === current));
+});
+
+/* ── Hamburger menu ── */
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileNav.classList.remove('open');
+}
+
+/* ── Reposition bubbles (desktop vs mobile) ── */
+function repositionBubbles() {
+  const isDesktop = window.innerWidth > 900;
+  const heroCenter = document.querySelector('.hero-center');
+  const photoWrap  = document.querySelector('.hero-photo-wrap');
+  const bubblesMobile = document.querySelector('.bubbles-mobile');
+  const edu  = document.querySelector('.bubble-edu');
+  const gh   = document.querySelector('.bubble-gh');
+  const uiux = document.querySelector('.bubble-uiux');
+  if (isDesktop) {
+    if (!photoWrap.contains(edu)) {
+      photoWrap.appendChild(edu);
+      photoWrap.appendChild(gh);
+      photoWrap.appendChild(uiux);
+    }
+    edu.style.cssText  = 'position:absolute; top:-24px; right:-220px; left:auto; bottom:auto;';
+    gh.style.cssText   = 'position:absolute; top:130px; left:-240px; right:auto; bottom:auto;';
+    uiux.style.cssText = 'position:absolute; bottom:50px; right:-230px; left:auto; top:auto;';
+  } else {
+    if (!bubblesMobile.contains(edu)) {
+      bubblesMobile.appendChild(edu);
+      bubblesMobile.appendChild(gh);
+      bubblesMobile.appendChild(uiux);
+    }
+    [edu, gh, uiux].forEach(b => b.style.cssText = 'position:static;');
+  }
+}
+window.addEventListener('resize', repositionBubbles);
+repositionBubbles();
+
+/* ── Scroll reveal ── */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ── Typing animation ── */
+const bioSegments = [
+  { type: 'text',  content: 'My name is ' },
+  { type: 'name',  content: 'Vishnu Prasad' },
+  { type: 'text',  content: '. I am 25 years old. I am studying in ' },
+  { type: 'place', content: 'IHRD College of Applied Science, Karthikapally' },
+  { type: 'text',  content: ' and majoring in Software Engineering. Beside of that I have UI/UX Design skills, and my favorite activity when I learn is programming and english.' },
+];
+const bioEl = document.getElementById('aboutBio');
+let segIdx = 0, charIdx = 0, typingStarted = false;
+function buildBioHTML(segs, curSeg, curChar) {
+  let html = '';
+  for (let i = 0; i < segs.length; i++) {
+    const seg = segs[i];
+    let text = i < curSeg ? seg.content : i === curSeg ? seg.content.slice(0, curChar) : '';
+    if (!text) { if (i > curSeg) break; continue; }
+    if (seg.type === 'name')  html += `<span class="hi-name">${text}</span>`;
+    else if (seg.type === 'place') html += `<span class="hi-place">${text}</span>`;
+    else html += text;
+  }
+  return html;
+}
+function typeNext() {
+  const seg = bioSegments[segIdx];
+  if (!seg) {
+    setTimeout(() => { const c = bioEl.querySelector('.typing-cursor'); if (c) c.style.display = 'none'; }, 1500);
+    return;
+  }
+  charIdx++;
+  if (charIdx > seg.content.length) { segIdx++; charIdx = 0; }
+  bioEl.innerHTML = buildBioHTML(bioSegments, segIdx, charIdx) + '<span class="typing-cursor"></span>';
+  setTimeout(typeNext, 28);
+}
+const aboutSection = document.getElementById('about');
+const typingObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !typingStarted) {
+      typingStarted = true;
+      setTimeout(typeNext, 400);
+      typingObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+typingObserver.observe(aboutSection);
+
+/* ── IP-based Time ── */
+(async function initTime() {
+  let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let location = '';
+  let flagEmoji = '🌐';
+
+  function countryToFlag(code) {
+    if (!code || code.length !== 2) return '🌐';
+    const c = code.toUpperCase();
+    return String.fromCodePoint(
+      0x1F1E6 + c.charCodeAt(0) - 65,
+      0x1F1E6 + c.charCodeAt(1) - 65
+    );
+  }
+
+  const apis = [
+    async () => {
+      const r = await fetch('https://ipapi.co/json/');
+      const d = await r.json();
+      if (!d.country_code) throw new Error('no data');
+      return { tz: d.timezone, cc: d.country_code, city: d.city, region: d.region, country: d.country_name };
+    },
+    async () => {
+      const r = await fetch('https://ipwho.is/');
+      const d = await r.json();
+      if (!d.country_code) throw new Error('no data');
+      return { tz: d.timezone?.id, cc: d.country_code, city: d.city, region: d.region, country: d.country };
+    },
+    async () => {
+      const r = await fetch('https://freeipapi.com/api/json');
+      const d = await r.json();
+      if (!d.countryCode) throw new Error('no data');
+      return { tz: d.timeZone, cc: d.countryCode, city: d.cityName, region: d.regionName, country: d.countryName };
+    }
+  ];
+
+  for (const api of apis) {
+    try {
+      const d = await api();
+      if (d.tz) timezone = d.tz;
+      if (d.cc) flagEmoji = countryToFlag(d.cc);
+      const parts = [];
+      if (d.city) parts.push(d.city);
+      if (d.region && d.region !== d.city) parts.push(d.region);
+      if (d.country) parts.push(d.country);
+      location = parts.join(', ');
+      break;
+    } catch(e) { continue; }
+  }
+
+  if (!location) location = timezone.replace(/_/g, ' ');
+
+  const flagEl = document.getElementById('timeFlag');
+  const locEl  = document.getElementById('timeLocation');
+  const timeEl = document.getElementById('timeDisplay');
+  const perEl  = document.getElementById('timePeriod');
+  if (flagEl) flagEl.textContent = flagEmoji;
+  if (locEl)  locEl.textContent  = location;
+
+  function tick() {
+    const now = new Date();
+    const hms = now.toLocaleTimeString('en-US', {
+      timeZone: timezone,
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: true
+    });
+    const match = hms.match(/^(\d{2}:\d{2}:\d{2})\s*(AM|PM)$/i);
+    if (match) {
+      if (timeEl) timeEl.textContent = match[1];
+      if (perEl)  perEl.textContent  = ' ' + match[2];
+    } else {
+      if (timeEl) timeEl.textContent = hms;
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ══ SPOTIFY TAB — fetch track info via oEmbed / fallback to hardcoded ══ */
+(function initSpotifyTab() {
+  const TRACK_ID  = '2cDyQDAoP0cPQXzaviXu2f';
+  const TRACK_URL = 'https://open.spotify.com/track/' + TRACK_ID;
+
+  const titleEl   = document.getElementById('spTitle');
+  const artistEl  = document.getElementById('spArtist');
+  const albumEl   = document.getElementById('spAlbum');
+  const artLarge  = document.getElementById('spArtLarge');
+  const artSmall  = document.getElementById('spArtSmall');
+  const progressEl = document.getElementById('spProgress');
+  const btnEl     = document.getElementById('spBtn');
+
+  // Hardcoded fallback track data (from the provided Spotify link)
+  const fallback = {
+    title:  'Vellake',
+    artist: 'Bharatt-Saurabh, Yazin Nizar, Anirudh Ravichander',
+    album:  'Vellake - Single · 2023',
+    art:    'https://i.scdn.co/image/ab67616d0000b2737ddc7c827fee4e66de5c4ce0',
+    artSmall: 'https://i.scdn.co/image/ab67616d000048517ddc7c827fee4e66de5c4ce0',
+    url:    TRACK_URL
+  };
+
+  function applyTrack(t) {
+    titleEl.textContent  = t.title;
+    artistEl.textContent = t.artist;
+    albumEl.textContent  = t.album;
+    artLarge.src  = t.art;
+    artSmall.src  = t.artSmall || t.art;
+    btnEl.href    = t.url;
+    // Animate progress bar to a representative position
+    setTimeout(() => { progressEl.style.width = '38%'; }, 300);
+  }
+
+  // Try Spotify oEmbed (no auth required, returns thumbnail + title)
+  fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(TRACK_URL))
+    .then(r => r.json())
+    .then(d => {
+      // oEmbed gives us title (usually "Song · Artist") and thumbnail_url
+      let title = d.title || fallback.title;
+      let artist = fallback.artist;
+      // Parse "Song · Artist" format if present
+      if (title.includes(' · ')) {
+        const parts = title.split(' · ');
+        title = parts[0].trim();
+        artist = parts[1] ? parts[1].trim() : fallback.artist;
+      }
+      applyTrack({
+        title,
+        artist,
+        album: fallback.album,
+        art:   d.thumbnail_url || fallback.art,
+        artSmall: d.thumbnail_url || fallback.artSmall,
+        url:   TRACK_URL
+      });
+    })
+    .catch(() => {
+      // Use hardcoded data as fallback
+      applyTrack(fallback);
+    });
+
+  // Always show the tab after load
+  setTimeout(() => { progressEl.style.width = '38%'; }, 800);
+})();
+
+/* ── Spotify tab toggle ── */
+function toggleSpotify() {
+  document.getElementById('sp-tab').classList.toggle('open');
+}
+// Auto-open after 2s on first visit
+setTimeout(() => {
+  if (!sessionStorage.getItem('sp_opened')) {
+    document.getElementById('sp-tab').classList.add('open');
+    sessionStorage.setItem('sp_opened', '1');
+  }
+}, 2000);
+</script>
+</body>
+</html>
