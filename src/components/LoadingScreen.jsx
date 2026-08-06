@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const STAGES = [
   'Loading please wait...',
-  'Sketching Thumbnails...',
+  'Setting Up...',
 ];
 
 export default function LoadingScreen({ onDone }) {
