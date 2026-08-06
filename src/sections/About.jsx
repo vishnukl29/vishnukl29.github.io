@@ -348,7 +348,7 @@ export default function About() {
           }}>
             Hey, I'm <strong style={{ color: 'var(--purple)' }}>Vishnu</strong> — a{' '}
             <span style={{ color: 'var(--red)' }}>Tech Enthusiast</span>,{' '}
-            <span style={{ color: 'var(--purple)' }}>Vibe Coder</span>, from{' '}
+            <span style={{ color: 'var(--purple)' }}>Web Designer</span>, from{' '}
             <span style={{ color: 'var(--orange)' }}>Kayamkulam, Kerala</span>.{' '}
             I am a programmer in my daily life. I am a quick learner with a self-learning attitude.
             I love to learn and explore new technologies and am passionate about problem-solving.
